@@ -1,0 +1,6 @@
+{
+  "name": "Florencia Passini | Pintura & Obra Original",
+  "description": "Catálogo razonado, archivo de obras seleccionadas, biografía y atelier de la artista Florencia Passini en Adrogué, Buenos Aires.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
