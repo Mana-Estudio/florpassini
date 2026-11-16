@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { Artwork, ArtworkCategory, TabType } from '../types';
+import { fadeInUp, fadeIn, staggerContainer } from '../utils/animations';
 
 interface ObrasViewProps {
   artworks: Artwork[];
@@ -26,12 +28,17 @@ export const ObrasView: React.FC<ObrasViewProps> = ({
     : artworks.filter((item) => item.category === selectedFilter);
 
   return (
-    <div className="flex flex-col w-full animate-fadeIn">
+    <div className="flex flex-col w-full">
       {/* Archival Page Intro & Navigation Filters */}
       <section className="w-full px-6 md:px-16 pt-8 pb-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6">
           {/* Typographic Eyebrow & Archival Registry Marker */}
-          <div className="flex flex-col gap-2">
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col gap-2"
+          >
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#4c0c20]" />
               <span className="text-[9px] uppercase tracking-[0.24em] text-[#534345] font-sans-clean font-medium">
@@ -41,10 +48,13 @@ export const ObrasView: React.FC<ObrasViewProps> = ({
             <h1 className="font-editorial text-3xl sm:text-4xl md:text-5xl text-[#1d1b19] tracking-tight font-normal">
               Obras Seleccionadas
             </h1>
-          </div>
+          </motion.div>
 
           {/* Exhibition Room Filters */}
-          <nav
+          <motion.nav
+            variants={fadeIn}
+            initial="hidden"
+            animate="visible"
             aria-label="Filtro de obras"
             className="flex items-center gap-6 sm:gap-10 overflow-x-auto pb-2 no-scrollbar"
           >
@@ -70,7 +80,7 @@ export const ObrasView: React.FC<ObrasViewProps> = ({
                 </button>
               );
             })}
-          </nav>
+          </motion.nav>
         </div>
       </section>
 
@@ -78,19 +88,26 @@ export const ObrasView: React.FC<ObrasViewProps> = ({
       <section className="w-full px-6 md:px-16 pb-20">
         <div className="max-w-7xl mx-auto">
           {/* Asymmetric 12-Column Editorial Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-10 items-start">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            key={selectedFilter}
+            className="grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-10 items-start"
+          >
             {filteredArtworks.map((artwork) => {
               // Get original index in complete artworks list for lightbox tracking
               const originalIndex = artworks.findIndex((a) => a.id === artwork.id);
               const isAvailable = artwork.status.toLowerCase().includes('disponible');
 
               return (
-                <article
+                <motion.article
                   key={artwork.id}
+                  variants={fadeInUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
                   onClick={() => onOpenLightbox(originalIndex)}
-                  style={{
-                    gridColumn: undefined, // Controlled by className
-                  }}
                   className={`group flex flex-col cursor-pointer transition-transform duration-300 hover:-translate-y-1 ${
                     artwork.colSpanDesktop === 8
                       ? 'md:col-span-8'
@@ -143,18 +160,24 @@ export const ObrasView: React.FC<ObrasViewProps> = ({
                       </span>
                     </div>
                     <p className="text-[11px] uppercase tracking-[0.16em] text-[#625d59] font-sans-clean">
-                      {artwork.medium} · {artwork.dimensions} · {artwork.year}
+                      {artwork.medium} · {artwork.dimensions}
                     </p>
                   </div>
-                </article>
+                </motion.article>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Editorial Footnote & Atelier Colophon Section */}
-      <section className="w-full px-6 md:px-16 py-16 bg-[#f9f2ef]/50 border-t border-[#e7e1de]/50">
+      <motion.section
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-50px' }}
+        className="w-full px-6 md:px-16 py-16 bg-[#f9f2ef]/50 border-t border-[#e7e1de]/50"
+      >
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-baseline justify-between gap-8">
           <div className="flex flex-col gap-2 max-w-md">
             <span className="text-[9px] uppercase tracking-[0.25em] text-[#4c0c20] font-sans-clean font-medium">
@@ -180,7 +203,7 @@ export const ObrasView: React.FC<ObrasViewProps> = ({
             </button>
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

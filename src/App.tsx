@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { TabType, Artwork } from './types';
 import { ARTWORKS_DATA } from './data/artworks';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Lightbox } from './components/Lightbox';
+import { WhatsAppFloat } from './components/WhatsAppFloat';
 import { HomeView } from './views/HomeView';
 import { ObrasView } from './views/ObrasView';
 import { SobreMiView } from './views/SobreMiView';
 import { ContactoView } from './views/ContactoView';
+import { pageVariants } from './utils/animations';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>('home');
@@ -59,39 +62,73 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fef8f4] text-[#1d1b19] font-sans-clean selection:bg-[#4c0c20] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#fef8f4] text-[#1d1b19] font-sans-clean selection:bg-[#4c0c20] selection:text-white relative">
       {/* Fixed Archival Header */}
       <Header activeTab={activeTab} onNavigate={handleNavigate} />
 
-      {/* Main Exhibition Reading Canvas */}
+      {/* Main Exhibition Reading Canvas with Page Transitions */}
       <main className="w-full pt-20 flex-1">
-        {activeTab === 'home' && (
-          <HomeView
-            onNavigate={handleNavigate}
-            onOpenArtworkModal={handleOpenArtworkModalById}
-            onInquireArtwork={handleInquireByTitle}
-          />
-        )}
+        <AnimatePresence mode="wait">
+          {activeTab === 'home' && (
+            <motion.div
+              key="home"
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <HomeView
+                onNavigate={handleNavigate}
+                onOpenArtworkModal={handleOpenArtworkModalById}
+                onInquireArtwork={handleInquireByTitle}
+              />
+            </motion.div>
+          )}
 
-        {activeTab === 'obras' && (
-          <ObrasView
-            artworks={ARTWORKS_DATA}
-            onOpenLightbox={handleOpenArtworkModalByIndex}
-            onNavigate={handleNavigate}
-          />
-        )}
+          {activeTab === 'obras' && (
+            <motion.div
+              key="obras"
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <ObrasView
+                artworks={ARTWORKS_DATA}
+                onOpenLightbox={handleOpenArtworkModalByIndex}
+                onNavigate={handleNavigate}
+              />
+            </motion.div>
+          )}
 
-        {activeTab === 'sobre-mi' && (
-          <SobreMiView onNavigate={handleNavigate} />
-        )}
+          {activeTab === 'sobre-mi' && (
+            <motion.div
+              key="sobre-mi"
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <SobreMiView onNavigate={handleNavigate} />
+            </motion.div>
+          )}
 
-        {activeTab === 'contacto' && (
-          <ContactoView
-            artworks={ARTWORKS_DATA}
-            selectedArtworkTitle={inquiryArtworkTitle}
-            onClearSelectedArtwork={() => setInquiryArtworkTitle('')}
-          />
-        )}
+          {activeTab === 'contacto' && (
+            <motion.div
+              key="contacto"
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <ContactoView
+                artworks={ARTWORKS_DATA}
+                selectedArtworkTitle={inquiryArtworkTitle}
+                onClearSelectedArtwork={() => setInquiryArtworkTitle('')}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
       {/* Museum Lightbox Modal */}
@@ -103,6 +140,9 @@ export default function App() {
         onSelectIndex={setSelectedArtworkIndex}
         onInquire={handleInquireFromArtwork}
       />
+
+      {/* Floating WhatsApp Action Button */}
+      <WhatsAppFloat isHidden={lightboxOpen} />
 
       {/* Archival Footer */}
       <Footer />

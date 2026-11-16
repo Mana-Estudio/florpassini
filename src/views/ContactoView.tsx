@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 import { Artwork } from '../types';
+import { fadeInUp, scaleIn, staggerContainer } from '../utils/animations';
 
 interface ContactoViewProps {
   artworks: Artwork[];
@@ -22,7 +24,6 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
   });
 
   const [submitted, setSubmitted] = useState(false);
-  const [copiedWhatsApp, setCopiedWhatsApp] = useState(false);
 
   useEffect(() => {
     if (selectedArtworkTitle) {
@@ -45,9 +46,14 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
   };
 
   return (
-    <div className="flex flex-col w-full animate-fadeIn pb-16">
+    <div className="flex flex-col w-full pb-16">
       {/* Top Header Section */}
-      <section className="w-full px-6 md:px-16 pt-8 pb-12">
+      <motion.section
+        variants={fadeInUp}
+        initial="hidden"
+        animate="visible"
+        className="w-full px-6 md:px-16 pt-8 pb-12"
+      >
         <div className="max-w-2xl mx-auto flex flex-col items-center text-center gap-4">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#4c0c20]" />
@@ -68,13 +74,19 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
             Para consultas sobre piezas existentes o encargos personalizados, comunicarse directamente por los siguientes canales:
           </p>
         </div>
-      </section>
+      </motion.section>
 
       {/* 3 Direct Communication Channels */}
       <section className="w-full px-6 md:px-16 pb-12">
-        <div className="max-w-xl mx-auto flex flex-col gap-3">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="max-w-xl mx-auto flex flex-col gap-3"
+        >
           {/* WhatsApp Directo */}
-          <a
+          <motion.a
+            variants={fadeInUp}
             href="https://wa.me/5491158243910"
             target="_blank"
             rel="noopener noreferrer"
@@ -96,10 +108,11 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
             <span className="material-symbols-outlined text-[18px] text-[#534345] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#4c0c20] transition-all">
               north_east
             </span>
-          </a>
+          </motion.a>
 
           {/* Instagram */}
-          <a
+          <motion.a
+            variants={fadeInUp}
             href="https://instagram.com/florenciapassini.art"
             target="_blank"
             rel="noopener noreferrer"
@@ -121,10 +134,11 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
             <span className="material-symbols-outlined text-[18px] text-[#534345] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#4c0c20] transition-all">
               north_east
             </span>
-          </a>
+          </motion.a>
 
           {/* Correo Electrónico */}
-          <a
+          <motion.a
+            variants={fadeInUp}
             href="mailto:contacto@florenciapassini.com"
             className="group flex items-center justify-between p-4 sm:p-5 bg-[#f9f2ef] hover:bg-[#ede7e3] border border-[#e7e1de]/70 transition-all duration-300 rounded-[2px]"
           >
@@ -144,7 +158,7 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
             <span className="material-symbols-outlined text-[18px] text-[#534345] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#4c0c20] transition-all">
               north_east
             </span>
-          </a>
+          </motion.a>
 
           {/* Subtext Location & Inquiries Status */}
           <div className="text-center pt-6 pb-2 flex flex-col gap-1 text-[#625d59]">
@@ -155,11 +169,17 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
               Actualmente recibiendo consultas para proyectos 2024–2025
             </span>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Featured Studio Card: Encuentros en el Estudio */}
-      <section className="w-full px-6 md:px-16 pb-12">
+      <motion.section
+        variants={scaleIn}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-50px' }}
+        className="w-full px-6 md:px-16 pb-12"
+      >
         <div className="max-w-3xl mx-auto bg-white border border-[#e7e1de]/80 shadow-[0_16px_40px_-20px_rgba(61,57,53,0.06)] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
           {/* Studio Image */}
           <div className="relative w-full sm:w-1/2 aspect-[4/3] overflow-hidden bg-[#ede7e3] shrink-0">
@@ -168,7 +188,6 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
               alt="Atelier de Florencia Passini en Adrogué"
               className="w-full h-full object-cover object-[24%_70%] scale-[2.2] translate-y-[-18%] translate-x-[-15%]"
               onError={(e) => {
-                // High-quality studio fallback if crop positioning differs
                 e.currentTarget.src = 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80';
                 e.currentTarget.className = 'w-full h-full object-cover';
               }}
@@ -191,7 +210,7 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
                 href={generateWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-[#4c0c20] hover:text-[#1d1b19] transition-colors font-sans-clean font-medium"
+                className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-[#4c0c20] hover:text-[#1d1b19] transition-colors font-sans-clean font-medium cursor-pointer"
               >
                 <span>Coordinar Visita</span>
                 <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
@@ -199,10 +218,16 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Curated Interactive Acquisition & Commission Composer */}
-      <section className="w-full px-6 md:px-16 pt-4">
+      <motion.section
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-50px' }}
+        className="w-full px-6 md:px-16 pt-4"
+      >
         <div className="max-w-xl mx-auto bg-[#f9f2ef]/60 border border-[#e7e1de] p-6 sm:p-8">
           <div className="flex items-center justify-between pb-3 border-b border-[#e7e1de]">
             <span className="text-[9px] uppercase tracking-[0.24em] text-[#4c0c20] font-sans-clean font-medium">
@@ -216,7 +241,7 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
           </div>
 
           {submitted ? (
-            <div className="py-8 flex flex-col items-center text-center gap-4 animate-fadeIn">
+            <div className="py-8 flex flex-col items-center text-center gap-4">
               <div className="w-12 h-12 rounded-full bg-[#4c0c20]/10 text-[#4c0c20] flex items-center justify-center">
                 <span className="material-symbols-outlined text-[24px]">check</span>
               </div>
@@ -231,7 +256,7 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
                   href={generateWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-2.5 bg-[#4c0c20] text-white text-[11px] uppercase tracking-[0.2em] font-sans-clean flex items-center gap-2 hover:bg-[#1d1b19] transition-colors"
+                  className="px-5 py-2.5 bg-[#4c0c20] text-white text-[11px] uppercase tracking-[0.2em] font-sans-clean flex items-center gap-2 hover:bg-[#1d1b19] transition-colors cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[16px]">chat_bubble</span>
                   <span>Enviar por WhatsApp</span>
@@ -242,7 +267,7 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
                     setSubmitted(false);
                     if (onClearSelectedArtwork) onClearSelectedArtwork();
                   }}
-                  className="px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-[#534345] hover:text-[#1d1b19] transition-colors"
+                  className="px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-[#534345] hover:text-[#1d1b19] transition-colors cursor-pointer"
                 >
                   Nueva consulta
                 </button>
@@ -335,7 +360,7 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
                   href={generateWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[11px] uppercase tracking-[0.16em] text-[#4c0c20] hover:text-[#1d1b19] flex items-center gap-1.5 transition-colors font-sans-clean"
+                  className="text-[11px] uppercase tracking-[0.16em] text-[#4c0c20] hover:text-[#1d1b19] flex items-center gap-1.5 transition-colors font-sans-clean cursor-pointer"
                 >
                   <span>O consultar por WhatsApp</span>
                   <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
@@ -344,7 +369,7 @@ export const ContactoView: React.FC<ContactoViewProps> = ({
             </form>
           )}
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

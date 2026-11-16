@@ -1,6 +1,8 @@
 import React from 'react';
-import { TabType, Artwork } from '../types';
-import { HERO_IMAGE, HOME_SILENCIO_IMAGE, HOME_MATERIA_IMAGE } from '../data/artworks';
+import { motion } from 'motion/react';
+import { TabType } from '../types';
+import { HERO_IMAGE, HOME_FEATURED_1_IMAGE, HOME_FEATURED_2_IMAGE } from '../data/artworks';
+import { fadeInUp, fadeIn, scaleIn, slideInLeft, slideInRight } from '../utils/animations';
 
 interface HomeViewProps {
   onNavigate: (tab: TabType) => void;
@@ -14,9 +16,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onInquireArtwork,
 }) => {
   return (
-    <div className="flex flex-col w-full pb-12 animate-fadeIn">
+    <div className="flex flex-col w-full pb-12">
       {/* Top Editorial Meta Ribbon */}
-      <section className="w-full px-6 md:px-16 pt-6 pb-4">
+      <motion.section
+        variants={fadeIn}
+        initial="hidden"
+        animate="visible"
+        className="w-full px-6 md:px-16 pt-6 pb-4"
+      >
         <div className="max-w-7xl mx-auto flex items-center justify-between border-b border-[#e7e1de]/40 pb-3">
           <span className="text-[9px] uppercase tracking-[0.24em] text-[#534345] font-sans-clean font-medium">
             Colección Pictórica
@@ -25,21 +32,24 @@ export const HomeView: React.FC<HomeViewProps> = ({
             Buenos Aires — 2024
           </span>
         </div>
-      </section>
+      </motion.section>
 
       {/* Main Hero Exhibition Anchor */}
       <section className="w-full px-6 md:px-16 pt-2 pb-12">
         <div className="max-w-7xl mx-auto flex flex-col gap-6">
           {/* Framed Canvas Presentation */}
-          <div
-            onClick={() => onOpenArtworkModal('horizonte-velado')}
+          <motion.div
+            variants={scaleIn}
+            initial="hidden"
+            animate="visible"
+            onClick={() => onOpenArtworkModal('resonancia-coral')}
             className="group relative w-full overflow-hidden bg-[#f3ede9] shadow-[0_20px_50px_-20px_rgba(61,57,53,0.08)] cursor-pointer transition-all duration-700 hover:shadow-[0_28px_60px_-16px_rgba(76,12,32,0.12)]"
           >
             <div className="p-3 sm:p-6 md:p-8 bg-[#f9f2ef]/80">
               <div className="relative overflow-hidden aspect-[16/10] sm:aspect-[16/9] w-full">
                 <img
                   src={HERO_IMAGE}
-                  alt="Florencia Passini obra principal en espacio de arquitectura"
+                  alt="Resonancia Coral, obra al óleo en lienzo por Florencia Passini"
                   className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.015]"
                   loading="eager"
                 />
@@ -50,10 +60,15 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Under-Hero Identification Row */}
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 px-1 pt-2">
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 px-1 pt-2"
+          >
             <div className="flex flex-col gap-1">
               <h1 className="font-editorial text-3xl sm:text-4xl md:text-5xl text-[#1d1b19] font-normal tracking-tight">
                 Florencia Passini
@@ -68,7 +83,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 Galería Privada
               </span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Explorar Scroll Indicator */}
           <div className="w-full flex flex-col items-center justify-center pt-8 pb-4">
@@ -92,7 +107,13 @@ export const HomeView: React.FC<HomeViewProps> = ({
       <section id="selected-works" className="w-full px-6 md:px-16 py-12 border-t border-[#e7e1de]/40">
         <div className="max-w-7xl mx-auto flex flex-col gap-12">
           {/* Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-6"
+          >
             <div className="flex flex-col gap-1.5">
               <span className="text-[9px] uppercase tracking-[0.26em] text-[#534345] font-sans-clean font-medium">
                 Obras Seleccionadas
@@ -106,21 +127,25 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <br className="hidden sm:inline" />
               Disponibilidad curada para colecciones privadas.
             </p>
-          </div>
+          </motion.div>
 
           {/* Asymmetric 2-Artwork Showcase */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
-            {/* Left Featured Work: Silencio I */}
-            <article
-              onClick={() => onOpenArtworkModal('ecos-de-cal-y-tierra')}
+            {/* Left Featured Work: Núcleo Mineral */}
+            <motion.article
+              variants={slideInLeft}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-50px' }}
+              onClick={() => onOpenArtworkModal('nucleo-mineral')}
               className="md:col-span-5 flex flex-col group cursor-pointer transition-transform duration-300 hover:-translate-y-1"
             >
               <div className="relative w-full overflow-hidden bg-[#ede7e3] shadow-[0_16px_40px_-16px_rgba(61,57,53,0.06)] group-hover:shadow-[0_24px_50px_-14px_rgba(76,12,32,0.12)] transition-all duration-700">
                 <div className="p-3 sm:p-5 bg-[#f9f2ef]/70">
-                  <div className="relative overflow-hidden aspect-[4/5] w-full">
+                  <div className="relative overflow-hidden aspect-square w-full">
                     <img
-                      src={HOME_SILENCIO_IMAGE}
-                      alt="Silencio I por Florencia Passini"
+                      src={HOME_FEATURED_1_IMAGE}
+                      alt="Núcleo Mineral por Florencia Passini"
                       className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.025]"
                     />
                     <div className="absolute inset-0 bg-[#fef8f4]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none flex items-center justify-center">
@@ -135,20 +160,20 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <div className="mt-4 flex flex-col gap-1 px-1">
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="font-editorial text-lg text-[#1d1b19] italic font-normal">
-                    Silencio I
+                    Núcleo Mineral
                   </h3>
                   <span className="text-[9px] uppercase tracking-widest text-[#4c0c20] font-sans-clean font-medium">
                     Disponible
                   </span>
                 </div>
                 <p className="text-[11px] uppercase tracking-[0.16em] text-[#625d59] font-sans-clean">
-                  Óleo y Lino — 2024 — 140 × 105 cm
+                  Técnica Mixta y Pigmentos — 100 × 100 cm
                 </p>
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onInquireArtwork('Silencio I');
+                    onInquireArtwork('Núcleo Mineral');
                   }}
                   className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em] text-[#4c0c20] hover:text-[#1d1b19] transition-colors pt-1 cursor-pointer w-fit"
                 >
@@ -156,19 +181,23 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
                 </button>
               </div>
-            </article>
+            </motion.article>
 
-            {/* Right Featured Work: Materia & Luz */}
-            <article
-              onClick={() => onOpenArtworkModal('forma-y-quietud')}
+            {/* Right Featured Work: Bruma y Marea */}
+            <motion.article
+              variants={slideInRight}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-50px' }}
+              onClick={() => onOpenArtworkModal('bruma-y-marea')}
               className="md:col-span-7 flex flex-col group cursor-pointer transition-transform duration-300 hover:-translate-y-1 md:mt-10"
             >
               <div className="relative w-full overflow-hidden bg-[#ede7e3] shadow-[0_16px_40px_-16px_rgba(61,57,53,0.06)] group-hover:shadow-[0_24px_50px_-14px_rgba(76,12,32,0.12)] transition-all duration-700">
                 <div className="p-3 sm:p-5 bg-[#f9f2ef]/70">
-                  <div className="relative overflow-hidden aspect-[4/3] w-full">
+                  <div className="relative overflow-hidden aspect-square w-full">
                     <img
-                      src={HOME_MATERIA_IMAGE}
-                      alt="Materia & Luz por Florencia Passini"
+                      src={HOME_FEATURED_2_IMAGE}
+                      alt="Bruma y Marea por Florencia Passini"
                       className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.025]"
                     />
                     <div className="absolute inset-0 bg-[#fef8f4]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none flex items-center justify-center">
@@ -183,20 +212,20 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <div className="mt-4 flex flex-col gap-1 px-1">
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="font-editorial text-lg text-[#1d1b19] italic font-normal">
-                    Materia & Luz
+                    Bruma y Marea
                   </h3>
-                  <span className="text-[9px] uppercase tracking-widest text-[#625d59] font-sans-clean font-medium">
-                    Colección Adrogué
+                  <span className="text-[9px] uppercase tracking-widest text-[#4c0c20] font-sans-clean font-medium">
+                    Disponible
                   </span>
                 </div>
                 <p className="text-[11px] uppercase tracking-[0.16em] text-[#625d59] font-sans-clean">
-                  Técnica Mixta Sobre Tela — 2024 — 120 × 160 cm
+                  Técnica Mixta y Relieves — 110 × 110 cm
                 </p>
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onInquireArtwork('Materia & Luz');
+                    onInquireArtwork('Bruma y Marea');
                   }}
                   className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em] text-[#4c0c20] hover:text-[#1d1b19] transition-colors pt-1 cursor-pointer w-fit"
                 >
@@ -204,7 +233,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
                 </button>
               </div>
-            </article>
+            </motion.article>
           </div>
 
           {/* Centered Action Link: Ver Todas Las Obras */}
@@ -223,7 +252,13 @@ export const HomeView: React.FC<HomeViewProps> = ({
       </section>
 
       {/* Philosophy / Thought Quote Section */}
-      <section className="w-full bg-[#f9f2ef]/70 border-t border-b border-[#e7e1de]/50 py-20 px-6 md:px-16 mt-8">
+      <motion.section
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-50px' }}
+        className="w-full bg-[#f9f2ef]/70 border-t border-b border-[#e7e1de]/50 py-20 px-6 md:px-16 mt-8"
+      >
         <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-6">
           <span className="text-[9px] uppercase tracking-[0.28em] text-[#534345] font-sans-clean font-medium">
             Pensamiento
@@ -241,7 +276,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             </span>
           </button>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

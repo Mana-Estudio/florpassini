@@ -10,7 +10,7 @@ export interface Artwork {
   category: ArtworkCategory;
   medium: string;
   dimensions: string;
-  year: string;
+  year?: string;
   status: ArtworkStatus;
   imageUrl: string;
   fallbackImageUrl?: string;

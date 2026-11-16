@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { TabType } from '../types';
+import { fadeInUp, slideInLeft, slideInRight, staggerContainer } from '../utils/animations';
 
 interface SobreMiViewProps {
   onNavigate: (tab: TabType) => void;
@@ -39,24 +41,23 @@ export const SobreMiView: React.FC<SobreMiViewProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <div className="flex flex-col w-full animate-fadeIn pb-16">
+    <div className="flex flex-col w-full pb-16">
       {/* Main Biography Section */}
       <section className="w-full px-6 md:px-16 pt-8 pb-16">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column: Documentary Artist Portrait */}
-          <div className="lg:col-span-5 flex flex-col gap-3">
+          <motion.div
+            variants={slideInLeft}
+            initial="hidden"
+            animate="visible"
+            className="lg:col-span-5 flex flex-col gap-3"
+          >
             <div className="relative w-full overflow-hidden bg-[#ede7e3] shadow-[0_16px_40px_-16px_rgba(61,57,53,0.08)]">
               <div className="relative aspect-[3/4] w-full overflow-hidden">
-                {/* Artist portrait from local mock asset crop / documentary styling */}
                 <img
-                  src="/assets/aistudio/Image_7_0e0f30aa.png"
-                  alt="Florencia Passini en pleno proceso de dibujo en su atelier de Adrogué"
-                  className="w-full h-full object-cover object-[15%_12%] scale-[1.95] translate-y-[-10%] translate-x-[-12%] filter grayscale contrast-[1.05]"
-                  onError={(e) => {
-                    // Fallback to stylized high-contrast documentary photo
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80';
-                    e.currentTarget.className = 'w-full h-full object-cover filter grayscale';
-                  }}
+                  src="/images/artist/florencia-passini.jpg"
+                  alt="Florencia Passini en su atelier de Adrogué"
+                  className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-[1.02]"
                 />
                 <div className="absolute inset-0 bg-[#4c0c20]/5 pointer-events-none" />
               </div>
@@ -74,10 +75,15 @@ export const SobreMiView: React.FC<SobreMiViewProps> = ({ onNavigate }) => {
                 </span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column: Editorial Essay & Philosophy */}
-          <div className="lg:col-span-7 flex flex-col gap-6">
+          <motion.div
+            variants={slideInRight}
+            initial="hidden"
+            animate="visible"
+            className="lg:col-span-7 flex flex-col gap-6"
+          >
             <div className="flex flex-col gap-1.5">
               <span className="text-[9px] uppercase tracking-[0.26em] text-[#4c0c20] font-sans-clean font-medium">
                 Biografía • Introspección
@@ -115,10 +121,17 @@ export const SobreMiView: React.FC<SobreMiViewProps> = ({ onNavigate }) => {
                 </span>
               </div>
 
-              <div className="grid grid-cols-3 gap-3 sm:gap-4 pt-1">
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-3 gap-3 sm:gap-4 pt-1"
+              >
                 {processElements.map((elem) => (
-                  <button
+                  <motion.button
                     key={elem.id}
+                    variants={fadeInUp}
                     onClick={() => setSelectedProcess(selectedProcess === elem.id ? null : elem.id)}
                     type="button"
                     className="group flex flex-col text-left cursor-pointer transition-transform duration-200 hover:-translate-y-0.5"
@@ -142,28 +155,38 @@ export const SobreMiView: React.FC<SobreMiViewProps> = ({ onNavigate }) => {
                         {elem.num}
                       </span>
                     </div>
-                  </button>
+                  </motion.button>
                 ))}
-              </div>
+              </motion.div>
 
               {/* Expandable Process Detail Note */}
-              {selectedProcess !== null && (
-                <div className="mt-2 p-4 bg-[#f9f2ef] border border-[#e7e1de] text-xs text-[#534345] leading-relaxed animate-fadeIn">
-                  <div className="flex items-center justify-between font-medium text-[#1d1b19] mb-1">
-                    <span className="font-editorial italic text-sm">
-                      {processElements[selectedProcess - 1].title} — {processElements[selectedProcess - 1].subtitle}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedProcess(null)}
-                      className="text-[#625d59] hover:text-[#1d1b19]"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <p>{processElements[selectedProcess - 1].description}</p>
-                </div>
-              )}
+              <AnimatePresence>
+                {selectedProcess !== null && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-2 p-4 bg-[#f9f2ef] border border-[#e7e1de] text-xs text-[#534345] leading-relaxed">
+                      <div className="flex items-center justify-between font-medium text-[#1d1b19] mb-1">
+                        <span className="font-editorial italic text-sm">
+                          {processElements[selectedProcess - 1].title} — {processElements[selectedProcess - 1].subtitle}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedProcess(null)}
+                          className="text-[#625d59] hover:text-[#1d1b19] cursor-pointer"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <p>{processElements[selectedProcess - 1].description}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Actions: Recorrer Obras & Conversar sobre un encargo */}
@@ -190,12 +213,18 @@ export const SobreMiView: React.FC<SobreMiViewProps> = ({ onNavigate }) => {
                 </span>
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Workspace Atelier Footnote Banner */}
-      <section className="w-full px-6 md:px-16 pt-4">
+      <motion.section
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-50px' }}
+        className="w-full px-6 md:px-16 pt-4"
+      >
         <div className="max-w-7xl mx-auto bg-[#f9f2ef]/70 border border-[#e7e1de]/60 p-8 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm">
           <div className="flex flex-col gap-1.5 max-w-md">
             <span className="text-[9px] uppercase tracking-[0.26em] text-[#534345] font-sans-clean font-medium">
@@ -225,7 +254,7 @@ export const SobreMiView: React.FC<SobreMiViewProps> = ({ onNavigate }) => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };
