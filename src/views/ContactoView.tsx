@@ -5,7 +5,7 @@ import { SITE, instagramLink, whatsappLink } from '../data/site';
 import { Reveal, WhatsAppIcon } from '../components/ui';
 import { PageIntro } from '../components/sections';
 
-const MOTIVOS = ['Quiero comprar una obra', 'Quiero encargar una obra', 'Quiero visitar el taller', 'Otra consulta'];
+const MOTIVOS = ['Quiero comprar una obra', 'Quiero encargar una obra', 'Otra consulta'];
 
 export const ContactoView: React.FC<{ slug?: string }> = ({ slug }) => {
   const preselected = findArtwork(slug);
@@ -51,7 +51,7 @@ export const ContactoView: React.FC<{ slug?: string }> = ({ slug }) => {
           </>
         }
       >
-        Consultas por obras, encargos o visitas al taller. La forma más rápida es WhatsApp, pero elegí la que te quede más cómoda.
+        Consultas por obras o encargos. La forma más rápida es WhatsApp, pero elegí la que te quede más cómoda.
       </PageIntro>
 
       <section className="container-x grid gap-14 pb-28 lg:grid-cols-12 lg:gap-16">
@@ -76,7 +76,7 @@ export const ContactoView: React.FC<{ slug?: string }> = ({ slug }) => {
           <Reveal delay={0.2} className="flex items-start gap-4 pt-6">
             <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-coral-deep" />
             <p className="leading-relaxed text-ink-soft">
-              <span className="font-semibold text-ink">Taller en {SITE.location}.</span> Se puede visitar con cita previa: escribime y coordinamos día y horario.
+              <span className="font-normal text-ink">Desde {SITE.location}.</span> Envíos a todo el país.
             </p>
           </Reveal>
         </div>

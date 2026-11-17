@@ -23,7 +23,7 @@ export const NotFoundView: React.FC = () => (
         Esta pared <em>está vacía</em>
       </h1>
       <p className="mt-6 max-w-md text-lg leading-relaxed text-ink-soft">
-        La página que buscás no existe o la obra ya encontró otra casa. Pero hay muchas más colgadas en el taller.
+        La página que buscás no existe o la obra ya encontró otra casa. Pero hay muchas más para ver.
       </p>
       <div className="mt-9 flex flex-wrap gap-3">
         <a href={href('obras')} className="btn-primary">

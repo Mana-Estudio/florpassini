@@ -125,13 +125,6 @@ export const SobreMiView: React.FC = () => (
       </section>
     )}
 
-    <CtaBand
-      title={
-        <>
-          ¿Venís <em className="text-paper">al taller?</em>
-        </>
-      }
-      text="Si querés conocer las obras en persona, podés visitar mi taller en Adrogué coordinando antes por mensaje."
-    />
+    <CtaBand />
   </>
 );

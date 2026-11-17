@@ -59,7 +59,7 @@ const routes: Meta[] = [
   {
     path: '/contacto',
     title: 'Contacto · Florencia Passini',
-    description: 'Escribile a Florencia Passini por WhatsApp, Instagram o mail para consultas por obras, encargos o visitas al taller.',
+    description: 'Escribile a Florencia Passini por WhatsApp, Instagram o mail para consultas por obras o encargos.',
     image: DEFAULT_IMAGE,
   },
   ...ARTWORKS.map<Meta>((a) => ({

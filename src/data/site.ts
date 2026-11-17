@@ -24,7 +24,7 @@ export const SITE = {
   email: 'contacto@florenciapassini.com',
 
   intro:
-    'Pinto abstracciones que estallan de color y escenas de la naturaleza que me frenan el paso: colibríes, mariposas, suculentas. Cada obra es única y está hecha a mano en mi taller.',
+    'Pinto abstracciones que estallan de color y escenas de la naturaleza que me frenan el paso: colibríes, mariposas, suculentas. Cada obra es única y está hecha a mano.',
 
   statement: 'Pinto lo que me emociona del color: cómo vibra, cómo choca, cómo se calma.',
 
@@ -59,10 +59,6 @@ export const SITE = {
     {
       q: '¿Las obras vienen con certificado?',
       a: 'Sí, cada obra original se entrega firmada y con certificado de autenticidad.',
-    },
-    {
-      q: '¿Puedo ver las obras en persona?',
-      a: 'Claro. Podés visitar el taller en Adrogué coordinando día y horario previamente.',
     },
   ],
 };
