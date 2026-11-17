@@ -88,7 +88,7 @@ export const HomeView: React.FC = () => {
             </motion.a>
             <motion.a
               href={href(`obras/${heroSmall.slug}`)}
-              className="group absolute -bottom-6 left-0 block w-[52%] bg-white p-2.5 shadow-[0_30px_60px_-30px_rgba(31,26,23,0.55)] sm:-bottom-4 sm:w-[46%] sm:p-3"
+              className="group absolute -bottom-6 left-0 block w-[38%] bg-white p-2.5 shadow-[0_30px_60px_-30px_rgba(31,26,23,0.55)] sm:-bottom-4 sm:w-[32%] sm:p-3"
               initial={{ opacity: 0, y: 40, rotate: -4 }}
               animate={{ opacity: 1, y: 0, rotate: -4 }}
               transition={{ duration: 1, delay: 0.35, ease }}

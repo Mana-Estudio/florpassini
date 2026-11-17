@@ -31,13 +31,13 @@ export const ARTWORKS: Artwork[] = [
     title: 'El Vuelo Silencioso',
     serie: 'naturaleza',
     technique: 'Óleo sobre lienzo',
-    size: '100 × 70 cm',
+    size: '70 × 100 cm',
     status: 'disponible',
     description:
       'Un colibrí en reposo, con la iridiscencia violeta y verde lima de sus plumas pintada casi una por una, sobre un fondo vegetal fuera de foco.',
     ...img('el-vuelo-silencioso'),
-    w: 2000,
-    h: 1399,
+    w: 1399,
+    h: 2000,
     featured: true,
   },
   {

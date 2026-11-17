@@ -8,8 +8,8 @@ import { CtaBand } from '../components/sections';
 const PROCESO = [
   {
     img: '/images/detalles/detalle-colibri.jpg',
-    w: 640,
-    h: 560,
+    w: 560,
+    h: 640,
     title: 'Mirar de cerca',
     text: 'En las obras de naturaleza me detengo en lo mínimo: cada pluma del colibrí es una pincelada pensada.',
     from: 'El Vuelo Silencioso',
