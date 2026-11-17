@@ -1,40 +1,63 @@
 import React from 'react';
+import { Instagram, Mail } from 'lucide-react';
+import { SITE, instagramLink, whatsappLink } from '../data/site';
+import { href } from '../lib/router';
+import { NAV } from './Header';
+import { WhatsAppIcon } from './ui';
 
-export const Footer: React.FC = () => {
-  return (
-    <footer className="w-full bg-[#ffffff]/60 border-t border-[#e7e1de]/50 pt-16 pb-12 mt-auto">
-      <div className="w-full px-6 md:px-16 max-w-5xl mx-auto flex flex-col items-center justify-center text-center gap-6">
-        {/* Social and Communication Icons */}
-        <div className="flex items-center gap-6 text-[#534345]">
-          <a
-            href="https://instagram.com/florenciapassini.art"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram de Florencia Passini"
-            className="p-1.5 text-[#534345] hover:text-[#4c0c20] transition-colors duration-300"
-          >
-            <span className="material-symbols-outlined text-[20px]">photo_camera</span>
-          </a>
-          <span className="w-1 h-1 rounded-full bg-[#ccc5bf]" />
-          <a
-            href="https://wa.me/5491158243910"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="WhatsApp directo del Atelier"
-            className="p-1.5 text-[#534345] hover:text-[#4c0c20] transition-colors duration-300"
-          >
-            <span className="material-symbols-outlined text-[20px]">chat_bubble</span>
-          </a>
-        </div>
-
-        <p className="text-[11px] uppercase tracking-[0.22em] text-[#534345] font-sans-clean font-medium">
-          Adrogué, Buenos Aires
+export const Footer: React.FC = () => (
+  <footer className="border-t border-line bg-paper-2">
+    <div className="container-x grid gap-12 py-16 md:grid-cols-12">
+      <div className="md:col-span-5">
+        <a href={href()} className="inline-flex items-baseline gap-1.5">
+          <span className="font-display text-3xl text-ink">Florencia</span>
+          <span className="font-display text-3xl italic text-violet">Passini</span>
+        </a>
+        <p className="mt-4 max-w-sm leading-relaxed text-ink-soft">
+          Pintura original al óleo y técnica mixta. Obras disponibles, encargos a medida y envíos a todo el país.
         </p>
-
-        <p className="text-[12px] text-[#625d59] font-light font-sans-clean">
-          © Florencia Passini. Obra pictórica original.
-        </p>
+        <p className="mt-4 text-sm font-medium text-ink">{SITE.location}</p>
       </div>
-    </footer>
-  );
-};
+
+      <nav className="md:col-span-3" aria-label="Pie de página">
+        <p className="eyebrow mb-4">Navegar</p>
+        <ul className="space-y-2.5">
+          {NAV.map((n) => (
+            <li key={n.page}>
+              <a href={href(n.page)} className="text-ink hover:text-violet">
+                {n.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div className="md:col-span-4">
+        <p className="eyebrow mb-4">Hablemos</p>
+        <ul className="space-y-2.5">
+          <li>
+            <a href={whatsappLink('¡Hola Flor!')} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5 text-ink hover:text-violet">
+              <WhatsAppIcon className="h-4 w-4" /> {SITE.whatsappDisplay}
+            </a>
+          </li>
+          <li>
+            <a href={instagramLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5 text-ink hover:text-violet">
+              <Instagram className="h-4 w-4" /> @{SITE.instagram}
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${SITE.email}`} className="inline-flex items-center gap-2.5 break-all text-ink hover:text-violet">
+              <Mail className="h-4 w-4 shrink-0" /> {SITE.email}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div className="border-t border-line">
+      <div className="container-x flex flex-col gap-2 py-6 text-xs text-ink-soft sm:flex-row sm:justify-between">
+        <p>© {new Date().getFullYear()} Florencia Passini. Todas las obras y fotografías son de la artista.</p>
+        <p>Hecho con color en el sur de Buenos Aires.</p>
+      </div>
+    </div>
+  </footer>
+);

@@ -1,124 +1,127 @@
-import React, { useState } from 'react';
-import { TabType } from '../types';
-import { PROFILE_AVATAR } from '../data/artworks';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { Instagram, Menu, X } from 'lucide-react';
+import { Page } from '../types';
+import { SITE, instagramLink, whatsappLink } from '../data/site';
+import { href } from '../lib/router';
+import { WhatsAppIcon } from './ui';
 
-interface HeaderProps {
-  activeTab: TabType;
-  onNavigate: (tab: TabType) => void;
-}
+export const NAV: { page: Page; label: string }[] = [
+  { page: 'obras', label: 'Obras' },
+  { page: 'sobre-mi', label: 'Sobre mí' },
+  { page: 'encargos', label: 'Encargos' },
+  { page: 'contacto', label: 'Contacto' },
+];
 
-export const Header: React.FC<HeaderProps> = ({ activeTab, onNavigate }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export const Header: React.FC<{ page: Page }> = ({ page }) => {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const navItems: { id: TabType; label: string }[] = [
-    { id: 'home', label: 'HOME' },
-    { id: 'sobre-mi', label: 'SOBRE MÍ' },
-    { id: 'obras', label: 'OBRAS' },
-    { id: 'contacto', label: 'CONTACTO' },
-  ];
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const handleNavClick = (tab: TabType) => {
-    onNavigate(tab);
-    setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  useEffect(() => setOpen(false), [page]);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+  }, [open]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full z-40 bg-[#fef8f4]/90 backdrop-blur-md shadow-[0_1px_8px_rgba(61,57,53,0.03)] border-b border-[#e7e1de]/40">
-      <div className="h-20 w-full px-6 md:px-16 flex items-center justify-between max-w-7xl mx-auto">
-        {/* Brand Zone */}
-        <button
-          onClick={() => handleNavClick('home')}
-          className="flex items-center gap-2 group text-left cursor-pointer transition-opacity"
-        >
-          <span className="font-editorial text-lg md:text-xl text-[#1d1b19] tracking-wider uppercase group-hover:text-[#4c0c20] transition-colors duration-300">
-            Florencia Passini
-          </span>
-        </button>
+    <header
+      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
+        scrolled || open ? 'bg-paper/90 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md' : 'bg-transparent'
+      }`}
+    >
+      <div className="container-x flex h-18 items-center justify-between">
+        <a href={href()} className="group flex items-baseline gap-1.5" aria-label="Inicio">
+          <span className="font-display text-2xl tracking-tight text-ink">Florencia</span>
+          <span className="font-display text-2xl italic tracking-tight text-violet">Passini</span>
+        </a>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden sm:flex items-center gap-6 lg:gap-10">
-          {navItems.map((item) => {
-            const isActive = activeTab === item.id;
+        <nav aria-label="Principal" className="hidden items-center gap-1 md:flex">
+          {NAV.map((item) => {
+            const active = page === item.page;
             return (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`text-[11px] tracking-[0.2em] uppercase font-sans-clean transition-colors duration-200 cursor-pointer relative py-2 ${
-                  isActive
-                    ? 'text-[#4c0c20] font-medium'
-                    : 'text-[#534345] hover:text-[#1d1b19]'
+              <a
+                key={item.page}
+                href={href(item.page)}
+                aria-current={active ? 'page' : undefined}
+                className={`relative rounded-full px-4 py-2 text-[15px] font-medium transition-colors ${
+                  active ? 'text-violet' : 'text-ink-soft hover:text-ink'
                 }`}
               >
-                <span>{item.label}</span>
-                {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#4c0c20]" />
+                {item.label}
+                {active && (
+                  <motion.span
+                    layoutId="nav-dot"
+                    className="absolute bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-coral"
+                  />
                 )}
-              </button>
+              </a>
             );
           })}
+          <a
+            href={instagramLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            className="ml-2 grid h-10 w-10 place-items-center rounded-full text-ink-soft transition-colors hover:bg-paper-2 hover:text-ink"
+          >
+            <Instagram className="h-5 w-5" />
+          </a>
         </nav>
 
-        {/* User profile & Mobile Menu toggle */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => handleNavClick('sobre-mi')}
-            title="Sobre la artista"
-            className="flex items-center cursor-pointer transition-transform hover:scale-105"
-          >
-            <img
-              src={PROFILE_AVATAR}
-              alt="Florencia Passini retrato"
-              className="w-8 h-8 rounded-full object-cover ring-1 ring-[#e7e1de]"
-              onError={(e) => {
-                const target = e.currentTarget;
-                target.style.display = 'none';
-                const fallback = target.nextElementSibling as HTMLElement;
-                if (fallback) fallback.style.display = 'flex';
-              }}
-            />
-            <div
-              style={{ display: 'none' }}
-              className="w-8 h-8 rounded-full bg-[#4c0c20] text-white text-[11px] font-editorial items-center justify-center tracking-wider"
-            >
-              FP
-            </div>
-          </button>
-
-          {/* Mobile hamburger button */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="sm:hidden p-2 text-[#534345] hover:text-[#1d1b19] transition-colors"
-            aria-label="Abrir menú"
-          >
-            <span className="material-symbols-outlined text-[24px]">
-              {mobileMenuOpen ? 'close' : 'menu'}
-            </span>
-          </button>
-        </div>
+        <button
+          onClick={() => setOpen((o) => !o)}
+          className="-mr-2 grid h-11 w-11 place-items-center rounded-full text-ink md:hidden cursor-pointer"
+          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={open}
+        >
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="sm:hidden bg-[#fef8f4] border-b border-[#e7e1de] px-6 py-4 flex flex-col gap-3 shadow-md animate-fadeIn">
-          {navItems.map((item) => {
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`text-left py-2 text-xs uppercase tracking-[0.2em] flex items-center justify-between ${
-                  isActive ? 'text-[#4c0c20] font-medium' : 'text-[#534345]'
-                }`}
-              >
-                <span>{item.label}</span>
-                {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#4c0c20]" />}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      {/* Menú mobile */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="h-[calc(100dvh-4.5rem)] overflow-y-auto bg-paper md:hidden"
+          >
+            <nav className="container-x flex flex-col pt-6" aria-label="Principal mobile">
+              {[{ page: 'inicio' as Page, label: 'Inicio' }, ...NAV].map((item, i) => (
+                <motion.a
+                  key={item.page}
+                  href={href(item.page === 'inicio' ? '' : item.page)}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.04 * i }}
+                  className={`border-b border-line py-4 font-display text-4xl ${
+                    page === item.page ? 'italic text-violet' : 'text-ink'
+                  }`}
+                >
+                  {item.label}
+                </motion.a>
+              ))}
+              <div className="mt-10 flex flex-col gap-3">
+                <a href={whatsappLink('¡Hola Flor!')} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                  <WhatsAppIcon /> Escribime por WhatsApp
+                </a>
+                <a href={instagramLink} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+                  <Instagram className="h-5 w-5" /> @{SITE.instagram}
+                </a>
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

@@ -1,104 +1,117 @@
 import { Artwork } from '../types';
 
-export const ARTWORKS_DATA: Artwork[] = [
+const img = (slug: string) => ({
+  image: `/images/obras/${slug}.jpg`,
+  thumb: `/images/obras/${slug}-sm.jpg`,
+});
+
+/**
+ * Catálogo de obras. El orden de este array es el orden en que se muestran.
+ * Para sumar una obra: subir `slug.jpg` (≈2000px) y `slug-sm.jpg` (≈900px) a /public/images/obras
+ * y agregar un objeto acá con el ancho/alto en px de la imagen grande.
+ * TODO: confirmar con Flor año, medidas (ancho × alto), técnica, estado y precio de cada obra.
+ */
+export const ARTWORKS: Artwork[] = [
   {
-    id: 'resonancia-coral',
-    title: 'Resonancia Coral',
-    category: 'oleo',
-    medium: 'Óleo y veladuras sobre lienzo',
-    dimensions: '120 × 100 cm',
-    status: 'Disponible',
-    imageUrl: '/images/artworks/resonancia-coral.jpg',
-    alt: 'Resonancia Coral, pintura al óleo abstracta por Florencia Passini',
-    colSpanDesktop: 8,
-    aspectRatio: 'aspect-[4/5]',
-    description: 'Composición abstracta en tonos coral, rosa empolvado y magenta profundo con sutiles transiciones lumínicas y pigmento puro que evocan la calidez del paisaje interior.',
-    isAnchor: true,
-  },
-  {
-    id: 'nucleo-mineral',
-    title: 'Núcleo Mineral',
-    category: 'mixta',
-    medium: 'Técnica mixta y pigmentos sobre tela',
-    dimensions: '100 × 100 cm',
-    status: 'Disponible',
-    imageUrl: '/images/artworks/nucleo-mineral.jpg',
-    alt: 'Núcleo Mineral, pintura matérica en turquesa y arena por Florencia Passini',
-    colSpanDesktop: 4,
-    offsetDesktop: 'md:mt-12',
-    aspectRatio: 'aspect-square',
-    description: 'Estructura radial expansiva inspirada en formaciones geológicas y vetas minerales en tonalidades turquesa, arena cálida y sedimentos en negro carbón.',
-  },
-  {
-    id: 'bruma-y-marea',
-    title: 'Bruma y Marea',
-    category: 'mixta',
-    medium: 'Técnica mixta y relieves con espátula',
-    dimensions: '110 × 110 cm',
-    status: 'Disponible',
-    imageUrl: '/images/artworks/bruma-y-marea.jpg',
-    alt: 'Bruma y Marea, paisaje etéreo matérico por Florencia Passini',
-    colSpanDesktop: 7,
-    offsetDesktop: 'md:-mt-8',
-    aspectRatio: 'aspect-square',
-    description: 'Atmósfera etérea de veladuras brumosas y empastes matéricos en gris suave, blanco cal y toques de verde espuma marina.',
-  },
-  {
-    id: 'eclosion-vital',
+    slug: 'eclosion-vital',
     title: 'Eclosión Vital',
-    category: 'oleo',
-    medium: 'Óleo sobre lienzo',
-    dimensions: '90 × 90 cm',
-    status: 'Disponible',
-    imageUrl: '/images/artworks/eclosion-vital.jpg',
-    alt: 'Eclosión Vital, explosión de color al óleo por Florencia Passini',
-    colSpanDesktop: 5,
-    aspectRatio: 'aspect-square',
-    description: 'Explosión cromática de vitalidad y movimiento donde dialogan verdes esmeralda, violetas profundos, naranja fuego y acentos dorados.',
+    serie: 'abstractos',
+    technique: 'Óleo sobre lienzo',
+    size: '90 × 90 cm',
+    status: 'disponible',
+    description:
+      'Una explosión de color que sube desde el centro: verdes esmeralda, violetas profundos y naranjas fuego que se empujan entre sí.',
+    ...img('eclosion-vital'),
+    w: 952,
+    h: 960,
+    featured: true,
   },
   {
-    id: 'metamorfosis',
-    title: 'Metamorfosis',
-    category: 'oleo',
-    medium: 'Óleo y relieve sobre tela',
-    dimensions: '80 × 100 cm',
-    status: 'Disponible',
-    imageUrl: '/images/artworks/metamorfosis.jpg',
-    alt: 'Metamorfosis, mariposa en relieve al óleo por Florencia Passini',
-    colSpanDesktop: 4,
-    aspectRatio: 'aspect-[4/3]',
-    description: 'Gesto orgánico y liviano inspirado en el aleteo de una mariposa, con tonos violeta, ámbar luminoso y blanco sobre fondo terracota suave.',
-  },
-  {
-    id: 'el-vuelo-silencioso',
+    slug: 'el-vuelo-silencioso',
     title: 'El Vuelo Silencioso',
-    category: 'oleo',
-    medium: 'Óleo sobre bastidor',
-    dimensions: '100 × 70 cm',
-    status: 'Disponible',
-    imageUrl: '/images/artworks/el-vuelo-silencioso.jpg',
-    alt: 'El Vuelo Silencioso, colibrí al óleo por Florencia Passini',
-    colSpanDesktop: 4,
-    offsetDesktop: 'md:mt-8',
-    aspectRatio: 'aspect-[3/4]',
-    description: 'Representación poética y luminosa de un colibrí en reposo, destacando la iridiscencia violeta y verde lima sobre una atmósfera vegetal en calma.',
+    serie: 'naturaleza',
+    technique: 'Óleo sobre lienzo',
+    size: '100 × 70 cm',
+    status: 'disponible',
+    description:
+      'Un colibrí en reposo, con la iridiscencia violeta y verde lima de sus plumas pintada casi una por una, sobre un fondo vegetal fuera de foco.',
+    ...img('el-vuelo-silencioso'),
+    w: 2000,
+    h: 1399,
+    featured: true,
   },
   {
-    id: 'geometria-botanica',
+    slug: 'resonancia-coral',
+    title: 'Resonancia Coral',
+    serie: 'abstractos',
+    technique: 'Óleo sobre lienzo',
+    size: '120 × 100 cm',
+    status: 'disponible',
+    description:
+      'Capas de coral, rosa y magenta que se mueven como un atardecer. Una obra cálida, de gran formato, que llena de luz cualquier pared.',
+    ...img('resonancia-coral'),
+    w: 2000,
+    h: 1667,
+    featured: true,
+  },
+  {
+    slug: 'geometria-botanica',
     title: 'Geometría Botánica',
-    category: 'oleo',
-    medium: 'Óleo sobre lienzo',
-    dimensions: '100 × 80 cm',
-    status: 'Disponible',
-    imageUrl: '/images/artworks/geometria-botanica.jpg',
-    alt: 'Geometría Botánica, suculentas y echeverias al óleo por Florencia Passini',
-    colSpanDesktop: 4,
-    aspectRatio: 'aspect-[3/4]',
-    description: 'Estudio botánico en plano cenital que explora las espirales naturales de las echeverias y la armonía entre el verde jade y el púrpura aterciopelado.',
+    serie: 'naturaleza',
+    technique: 'Óleo sobre lienzo',
+    size: '100 × 100 cm',
+    status: 'disponible',
+    description:
+      'Echeverias vistas desde arriba: las espirales perfectas de la naturaleza en verde jade, azul y púrpura aterciopelado.',
+    ...img('geometria-botanica'),
+    w: 2000,
+    h: 2000,
+    featured: true,
+  },
+  {
+    slug: 'nucleo-mineral',
+    title: 'Núcleo Mineral',
+    serie: 'abstractos',
+    technique: 'Técnica mixta sobre tela',
+    size: '100 × 100 cm',
+    status: 'disponible',
+    description:
+      'Una estructura que se abre en cruz, inspirada en vetas minerales: turquesa, arena cálida y trazos de negro carbón.',
+    ...img('nucleo-mineral'),
+    w: 960,
+    h: 954,
+    featured: true,
+  },
+  {
+    slug: 'metamorfosis',
+    title: 'Metamorfosis',
+    serie: 'naturaleza',
+    technique: 'Óleo sobre lienzo',
+    size: '100 × 80 cm',
+    status: 'disponible',
+    description:
+      'El aleteo de una mariposa en violeta, ámbar y blanco sobre un fondo terracota suave. Gesto rápido, liviano, casi en movimiento.',
+    ...img('metamorfosis'),
+    w: 2000,
+    h: 1539,
+    featured: true,
+  },
+  {
+    slug: 'bruma-y-marea',
+    title: 'Bruma y Marea',
+    serie: 'abstractos',
+    technique: 'Técnica mixta',
+    size: '110 × 110 cm',
+    status: 'disponible',
+    description:
+      'Una atmósfera neblinosa de grises suaves, blanco cal y toques de verde agua. La obra más silenciosa de la serie.',
+    ...img('bruma-y-marea'),
+    w: 2000,
+    h: 2000,
   },
 ];
 
-export const PROFILE_AVATAR = '/images/artist/florencia-passini.jpg';
-export const HERO_IMAGE = '/images/artworks/resonancia-coral.jpg';
-export const HOME_FEATURED_1_IMAGE = '/images/artworks/nucleo-mineral.jpg';
-export const HOME_FEATURED_2_IMAGE = '/images/artworks/bruma-y-marea.jpg';
+export const findArtwork = (slug?: string) => ARTWORKS.find((a) => a.slug === slug);
+
+export const artworkMessage = (a: { title: string }) =>
+  `¡Hola Flor! Vi tu obra "${a.title}" en la web y me gustaría saber más.`;
