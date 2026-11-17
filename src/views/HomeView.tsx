@@ -80,7 +80,7 @@ export const HomeView: React.FC = () => {
               transition={{ duration: 1, delay: 0.15, ease }}
             >
               <div className="overflow-hidden shadow-[0_40px_80px_-40px_rgba(31,26,23,0.6)]">
-                <ArtImage art={hero} eager sizes="(min-width: 1024px) 45vw, 85vw" className="transition-transform duration-700 group-hover:scale-[1.03]" />
+                <ArtImage art={hero} eager sizes="(min-width: 1024px) 45vw, 85vw" className="group-hover:scale-[1.03]" />
               </div>
               <span className="mt-3 hidden text-right text-sm text-ink-soft sm:block">
                 <em className="font-display text-base text-ink">{hero.title}</em> · {hero.technique}
@@ -147,7 +147,7 @@ export const HomeView: React.FC = () => {
                   className="h-[300px] overflow-hidden bg-paper-2 shadow-[0_18px_40px_-24px_rgba(31,26,23,0.45)] sm:h-[420px]"
                   style={{ aspectRatio: `${art.w} / ${art.h}` }}
                 >
-                  <ArtImage art={art} sizes="(min-width: 640px) 560px, 80vw" className="!h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                  <ArtImage art={art} sizes="(min-width: 640px) 560px, 80vw" className="!h-full object-cover group-hover:scale-[1.03]" />
                 </div>
                 <div className="mt-4 flex items-baseline justify-between gap-6">
                   <h3 className="text-xl transition-colors group-hover:text-violet">{art.title}</h3>

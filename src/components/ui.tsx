@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Artwork, Estado } from '../types';
 import { ESTADOS } from '../data/site';
@@ -24,25 +24,45 @@ export const Reveal: React.FC<{
   );
 };
 
-/** Imagen de obra: respeta su proporción real (nunca recorta la obra) y carga el tamaño justo. */
+/** Hook: true cuando la imagen terminó de cargar (también si ya venía de la caché). */
+export function useImageLoaded(key: string) {
+  const ref = useRef<HTMLImageElement>(null);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    setLoaded(!!ref.current?.complete && ref.current.naturalWidth > 0);
+  }, [key]);
+  return { ref, loaded, onLoad: () => setLoaded(true) };
+}
+
+/**
+ * Imagen de obra: respeta su proporción real (nunca recorta la obra) y carga el tamaño justo.
+ * Mientras carga muestra el color promedio de la obra y después aparece suave.
+ */
 export const ArtImage: React.FC<{
   art: Artwork;
   sizes?: string;
   className?: string;
   eager?: boolean;
-}> = ({ art, sizes = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw', className = '', eager }) => (
-  <img
-    src={art.thumb}
-    srcSet={`${art.thumb} 900w, ${art.image} ${Math.max(art.w, 901)}w`}
-    sizes={sizes}
-    width={art.w}
-    height={art.h}
-    alt={`${art.title}, obra de Florencia Passini`}
-    loading={eager ? 'eager' : 'lazy'}
-    decoding="async"
-    className={`block h-auto w-full ${className}`}
-  />
-);
+}> = ({ art, sizes = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw', className = '', eager }) => {
+  const { ref, loaded, onLoad } = useImageLoaded(art.slug);
+  return (
+    <span className="block h-full w-full" style={{ backgroundColor: art.color }}>
+      <img
+        ref={ref}
+        onLoad={onLoad}
+        src={art.thumb}
+        srcSet={`${art.thumb} 900w, ${art.image} ${Math.max(art.w, 901)}w`}
+        sizes={sizes}
+        width={art.w}
+        height={art.h}
+        alt={`${art.title}, obra de Florencia Passini`}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        className={`block h-auto w-full transition-[opacity,transform] duration-700 ease-out ${loaded ? 'opacity-100' : 'opacity-0'} ${className}`}
+      />
+    </span>
+  );
+};
 
 const dot: Record<Estado, string> = {
   disponible: 'bg-leaf',

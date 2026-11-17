@@ -5,7 +5,8 @@ import { Artwork } from '../types';
 import { ARTWORKS, artworkMessage } from '../data/artworks';
 import { SERIES, SITE, whatsappLink } from '../data/site';
 import { navigate } from '../lib/router';
-import { StatusTag, WhatsAppIcon } from './ui';
+import { StatusTag, WhatsAppIcon, useImageLoaded } from './ui';
+import { WallPreview } from './WallPreview';
 
 interface Props {
   art: Artwork;
@@ -17,13 +18,21 @@ export const ArtworkModal: React.FC<Props> = ({ art }) => {
   const next = ARTWORKS[(index + 1) % ARTWORKS.length];
 
   const [zoom, setZoom] = useState(false);
+  const [view, setView] = useState<'obra' | 'pared'>('obra');
+  const [openedWith] = useState(art.slug);
+  const full = useImageLoaded(art.slug);
   const [origin, setOrigin] = useState('50% 50%');
   const [copied, setCopied] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchX = useRef<number | null>(null);
 
-  const close = () => navigate('obras');
-  const go = (a: Artwork) => navigate(`obras/${a.slug}`);
+  // Si se abrió desde el listado, "Cerrar" vuelve atrás (y el botón Atrás del navegador también cierra).
+  const close = () =>
+    (window.history.state as { fromList?: boolean } | null)?.fromList
+      ? window.history.back()
+      : navigate('obras', { replace: true });
+  // Pasar entre obras no apila historial
+  const go = (a: Artwork) => navigate(`obras/${a.slug}`, { replace: true, state: window.history.state });
 
   useEffect(() => {
     setZoom(false);
@@ -92,40 +101,92 @@ export const ArtworkModal: React.FC<Props> = ({ art }) => {
 
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 pb-16 sm:px-8 lg:grid-cols-12 lg:gap-14 lg:pb-10">
         {/* Obra */}
-        <div className="relative flex items-center justify-center lg:col-span-8 lg:min-h-[calc(100vh-9rem)]">
-          <motion.div
-            key={art.slug}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className={`relative overflow-hidden shadow-[0_30px_70px_-30px_rgba(31,26,23,0.5)] ${zoom ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
-            onClick={() => setZoom((z) => !z)}
-            onMouseMove={(e) => {
-              if (!zoom) return;
-              const r = e.currentTarget.getBoundingClientRect();
-              setOrigin(`${((e.clientX - r.left) / r.width) * 100}% ${((e.clientY - r.top) / r.height) * 100}%`);
-            }}
-            onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
-            onTouchEnd={(e) => {
-              if (touchX.current === null || zoom) return;
-              const dx = e.changedTouches[0].clientX - touchX.current;
-              if (Math.abs(dx) > 50) go(dx < 0 ? next : prev);
-              touchX.current = null;
-            }}
-          >
-            <img
-              src={art.image}
-              width={art.w}
-              height={art.h}
-              alt={`${art.title}, obra de Florencia Passini`}
-              className="block max-h-[62vh] w-auto max-w-full select-none transition-transform duration-500 ease-out lg:max-h-[calc(100vh-11rem)]"
-              style={{ transform: zoom ? 'scale(2.2)' : 'scale(1)', transformOrigin: origin }}
-              draggable={false}
-            />
-            <span className="pointer-events-none absolute bottom-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-paper/90 text-ink shadow">
-              {zoom ? <ZoomOut className="h-4 w-4" /> : <ZoomIn className="h-4 w-4" />}
-            </span>
-          </motion.div>
+        <div className="relative flex flex-col items-center justify-center gap-5 lg:col-span-8 lg:min-h-[calc(100vh-9rem)]">
+          {/* Selector: foto de la obra o a escala en una pared */}
+          <div role="tablist" aria-label="Modo de vista" className="flex rounded-full bg-paper-2 p-1 text-sm font-semibold">
+            {(
+              [
+                ['obra', 'La obra'],
+                ['pared', '¿Cómo queda en mi pared?'],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                role="tab"
+                aria-selected={view === id}
+                onClick={() => setView(id)}
+                className={`relative rounded-full px-4 py-2 transition-colors cursor-pointer ${view === id ? 'text-paper' : 'text-ink-soft hover:text-ink'}`}
+              >
+                {view === id && (
+                  <motion.span layoutId="view-pill" className="absolute inset-0 rounded-full bg-ink" transition={{ type: 'spring', duration: 0.4 }} />
+                )}
+                <span className="relative">{label}</span>
+              </button>
+            ))}
+          </div>
+
+          {view === 'pared' ? (
+            <motion.div
+              key={`pared-${art.slug}`}
+              className="w-full max-w-3xl"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              <WallPreview art={art} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key={art.slug}
+              // Sólo la obra con la que se abrió la ficha "vuela" desde su tarjeta
+              layoutId={art.slug === openedWith ? `art-${art.slug}` : undefined}
+              initial={art.slug === openedWith ? false : { opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className={`relative overflow-hidden shadow-[0_30px_70px_-30px_rgba(31,26,23,0.5)] ${zoom ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
+              style={{ backgroundColor: art.color }}
+              onClick={() => setZoom((z) => !z)}
+              onMouseMove={(e) => {
+                if (!zoom) return;
+                const r = e.currentTarget.getBoundingClientRect();
+                setOrigin(`${((e.clientX - r.left) / r.width) * 100}% ${((e.clientY - r.top) / r.height) * 100}%`);
+              }}
+              onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+              onTouchEnd={(e) => {
+                if (touchX.current === null || zoom) return;
+                const dx = e.changedTouches[0].clientX - touchX.current;
+                if (Math.abs(dx) > 50) go(dx < 0 ? next : prev);
+                touchX.current = null;
+              }}
+            >
+              <div
+                className="relative transition-transform duration-500 ease-out"
+                style={{ transform: zoom ? 'scale(2.2)' : 'scale(1)', transformOrigin: origin }}
+              >
+                {/* La miniatura (ya en caché desde la grilla) se ve al instante; la grande aparece encima al cargar */}
+                <img
+                  src={art.thumb}
+                  width={art.w}
+                  height={art.h}
+                  alt={`${art.title}, obra de Florencia Passini`}
+                  className="block max-h-[56vh] w-auto max-w-full select-none lg:max-h-[calc(100vh-14rem)]"
+                  draggable={false}
+                />
+                <img
+                  ref={full.ref}
+                  onLoad={full.onLoad}
+                  src={art.image}
+                  alt=""
+                  aria-hidden="true"
+                  className={`absolute inset-0 h-full w-full select-none transition-opacity duration-500 ${full.loaded ? 'opacity-100' : 'opacity-0'}`}
+                  draggable={false}
+                />
+              </div>
+              <span className="pointer-events-none absolute bottom-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-paper/90 text-ink shadow">
+                {zoom ? <ZoomOut className="h-4 w-4" /> : <ZoomIn className="h-4 w-4" />}
+              </span>
+            </motion.div>
+          )}
         </div>
 
         {/* Ficha */}

@@ -9,6 +9,14 @@ export const SITE = {
   role: 'Pintora',
   location: 'Adrogué, Buenos Aires',
 
+  /**
+   * Dominio final del sitio, sin barra al final (ej: 'https://florpassini.com.ar').
+   * TODO: completarlo cuando esté el dominio. Se usa para las vistas previas al compartir
+   * (WhatsApp/Instagram necesitan URLs absolutas), el sitemap y Google.
+   * También se puede pasar al build con la variable de entorno SITE_URL.
+   */
+  url: '',
+
   whatsapp: '5491161458476',
   whatsappDisplay: '+54 9 11 6145-8476',
   instagram: 'flor.passini.arte',

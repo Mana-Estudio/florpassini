@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { Artwork } from '../types';
 import { SERIES } from '../data/site';
 import { href } from '../lib/router';
@@ -10,11 +11,15 @@ export const ArtworkCard: React.FC<{ art: Artwork; sizes?: string; className?: s
   className = '',
 }) => (
   <a href={href(`obras/${art.slug}`)} className={`group block ${className}`}>
-    <div className="relative overflow-hidden bg-paper-2 shadow-[0_18px_40px_-24px_rgba(31,26,23,0.45)] transition-shadow duration-500 group-hover:shadow-[0_28px_60px_-24px_rgba(74,44,122,0.45)]">
+    {/* layoutId: la imagen "vuela" desde la tarjeta hasta la ficha de la obra */}
+    <motion.div
+      layoutId={`art-${art.slug}`}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="relative overflow-hidden bg-paper-2 shadow-[0_18px_40px_-24px_rgba(31,26,23,0.45)] transition-shadow duration-500 group-hover:shadow-[0_28px_60px_-24px_rgba(74,44,122,0.45)]">
       <ArtImage
         art={art}
         sizes={sizes}
-        className={`transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
+        className={`group-hover:scale-[1.03] ${
           art.status === 'vendida' ? 'saturate-[0.85]' : ''
         }`}
       />
@@ -23,7 +28,7 @@ export const ArtworkCard: React.FC<{ art: Artwork; sizes?: string; className?: s
           {art.status === 'vendida' ? 'Vendida' : 'Reservada'}
         </span>
       )}
-    </div>
+    </motion.div>
     <div className="mt-4 flex items-start justify-between gap-4">
       <div>
         <h3 className="text-xl leading-tight text-ink transition-colors group-hover:text-violet">{art.title}</h3>

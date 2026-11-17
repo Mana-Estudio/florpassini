@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { Page } from './types';
 import { findArtwork } from './data/artworks';
-import { useRoute } from './lib/router';
+import { interceptLinks, useRoute } from './lib/router';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
@@ -25,6 +25,8 @@ export default function App() {
   const route = useRoute();
   const openArt = route.page === 'obras' ? findArtwork(route.slug) : undefined;
   const lastPage = useRef<Page | null>(null);
+
+  useEffect(() => interceptLinks(), []);
 
   // Volver arriba sólo al cambiar de página (no al abrir/cerrar una obra)
   useEffect(() => {

@@ -27,5 +27,7 @@ export interface Artwork {
   /** dimensiones en px de la imagen grande (para respetar la proporción real de la obra) */
   w: number;
   h: number;
+  /** color promedio de la obra: se muestra mientras carga la imagen */
+  color: string;
   featured?: boolean;
 }
