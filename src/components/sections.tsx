@@ -7,10 +7,10 @@ import { Reveal, WhatsAppIcon } from './ui';
 export const CtaBand: React.FC<{ title?: React.ReactNode; text?: string }> = ({
   title = (
     <>
-      ¿Alguna obra <em className="text-paper">te habló?</em>
+      ¿Te gustó <em className="text-paper">alguna obra?</em>
     </>
   ),
-  text = 'Escribime y charlamos: disponibilidad, precios, envíos o una obra pensada para tu espacio.',
+  text = 'Escribime y te cuento disponibilidad, precio y envío.',
 }) => (
   <section className="bg-ink text-paper">
     <Reveal className="container-x py-28 text-center sm:py-36">
