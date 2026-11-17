@@ -9,10 +9,10 @@ export const SITE = {
   role: 'Pintora',
   location: 'Adrogué, Buenos Aires',
 
-  // TODO: confirmar número, usuario y mail reales
-  whatsapp: '5491158243910',
-  whatsappDisplay: '+54 9 11 5824-3910',
-  instagram: 'florenciapassini.art',
+  whatsapp: '5491161458476',
+  whatsappDisplay: '+54 9 11 6145-8476',
+  instagram: 'flor.passini.arte',
+  // TODO: confirmar mail real
   email: 'contacto@florenciapassini.com',
 
   intro:
