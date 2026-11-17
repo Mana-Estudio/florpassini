@@ -11,7 +11,7 @@ export const Footer: React.FC = () => (
       <div className="md:col-span-5">
         <a href={href()} className="inline-flex items-baseline gap-1.5">
           <span className="font-display text-3xl text-ink">Florencia</span>
-          <span className="font-display text-3xl italic text-violet">Passini</span>
+          <span className="font-display text-3xl text-violet">Passini</span>
         </a>
         <p className="mt-4 max-w-sm leading-relaxed text-ink-soft">
           Pintura original al óleo y técnica mixta. Obras disponibles, encargos a medida y envíos a todo el país.

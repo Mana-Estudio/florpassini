@@ -14,16 +14,9 @@
   --color-leaf: #7aa33a;
   --color-sea: #2a9da8;
 
-  --font-display: "Fraunces", Georgia, serif;
+  --font-display: "Young Serif", Georgia, serif;
   --font-sans: "Manrope", system-ui, -apple-system, sans-serif;
 
-  --animate-marquee: marquee 38s linear infinite;
-  --animate-spin-slow: spin 22s linear infinite;
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
 }
 
 @layer base {
@@ -40,8 +33,15 @@
   }
   h1, h2, h3 {
     @apply font-display;
-    font-optical-sizing: auto;
+    font-weight: 400;
     text-wrap: balance;
+  }
+  /* Palabras destacadas: sin cursiva, con un trazo de pincel coral debajo */
+  :where(h1, h2, blockquote) em {
+    font-style: normal;
+    padding: 0 0.04em 0.04em;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 11.5C38 6.5 88 4.8 139 6.6c22 .8 42 1.6 58-.4l-1 6.3c-21 2.6-56 3.4-94 3.1C64 15.3 30 16.8 4 16.4L1.5 14z' fill='%23e2603f' fill-opacity='.55'/%3E%3C/svg%3E")
+      no-repeat left 92% / 100% 0.3em;
   }
   p {
     text-wrap: pretty;
@@ -55,7 +55,7 @@
   @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
 }
 @utility eyebrow {
-  @apply text-xs font-semibold uppercase tracking-[0.18em] text-ink-soft;
+  @apply text-sm font-medium text-ink-soft;
 }
 @utility btn {
   @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-300 cursor-pointer;
@@ -92,5 +92,4 @@
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .animate-marquee, .animate-spin-slow { animation: none !important; }
 }

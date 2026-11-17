@@ -45,7 +45,6 @@ export const ContactoView: React.FC<{ slug?: string }> = ({ slug }) => {
   return (
     <>
       <PageIntro
-        eyebrow="Contacto"
         title={
           <>
             Hablemos de <em className="text-violet">arte</em>

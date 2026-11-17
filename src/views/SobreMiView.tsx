@@ -52,8 +52,7 @@ export const SobreMiView: React.FC = () => (
         </div>
       </Reveal>
       <Reveal className="lg:col-span-7" delay={0.1}>
-        <p className="eyebrow">Sobre mí</p>
-        <h1 className="mt-4 text-6xl leading-[0.95] tracking-tight sm:text-8xl">
+        <h1 className="text-6xl leading-[0.95] tracking-tight sm:text-8xl">
           Hola, <em className="text-violet">soy Flor.</em>
         </h1>
         <div className="mt-8 space-y-5 text-lg leading-relaxed text-ink-soft">
@@ -78,15 +77,14 @@ export const SobreMiView: React.FC = () => (
         <blockquote className="mx-auto max-w-4xl font-display text-4xl leading-tight sm:text-6xl">
           “{SITE.statement}”
         </blockquote>
-        <p className="mt-6 font-display text-xl italic text-violet">— Flor</p>
+        <p className="mt-6 font-display text-xl text-violet">— Flor</p>
       </Reveal>
     </section>
 
     {/* Proceso */}
     <section className="container-x py-24 sm:py-32">
       <Reveal className="max-w-2xl">
-        <p className="eyebrow">Cómo pinto</p>
-        <h2 className="mt-3 text-4xl leading-tight sm:text-6xl">
+        <h2 className="text-4xl leading-tight sm:text-6xl">
           Acercate, <em className="text-violet">mirá la pincelada</em>
         </h2>
       </Reveal>
@@ -105,7 +103,7 @@ export const SobreMiView: React.FC = () => (
             </div>
             <h3 className="mt-6 text-2xl">{p.title}</h3>
             <p className="mt-2 leading-relaxed text-ink-soft">{p.text}</p>
-            <p className="mt-3 text-sm italic text-ink-soft/80">Detalle de “{p.from}”</p>
+            <p className="mt-3 text-sm text-ink-soft/80">Detalle de “{p.from}”</p>
           </Reveal>
         ))}
       </div>
@@ -115,13 +113,12 @@ export const SobreMiView: React.FC = () => (
     {SITE.trayectoria.length > 0 && (
       <section className="container-x pb-24 sm:pb-32">
         <Reveal>
-          <p className="eyebrow">Trayectoria</p>
-          <h2 className="mt-3 text-4xl sm:text-5xl">Muestras y formación</h2>
+          <h2 className="text-4xl sm:text-5xl">Muestras y formación</h2>
         </Reveal>
         <ul className="mt-10 divide-y divide-line border-y border-line">
           {SITE.trayectoria.map((t) => (
             <Reveal as="li" key={t.year + t.title} className="grid gap-1 py-5 sm:grid-cols-12 sm:gap-6">
-              <span className="font-display text-xl italic text-violet sm:col-span-2">{t.year}</span>
+              <span className="font-display text-xl text-violet sm:col-span-2">{t.year}</span>
               <span className="font-medium sm:col-span-6">{t.title}</span>
               {t.place && <span className="text-ink-soft sm:col-span-4">{t.place}</span>}
             </Reveal>
@@ -133,7 +130,7 @@ export const SobreMiView: React.FC = () => (
     <CtaBand
       title={
         <>
-          ¿Venís <em className="text-coral">al taller?</em>
+          ¿Venís <em className="text-paper">al taller?</em>
         </>
       }
       text="Si querés conocer las obras en persona, podés visitar mi taller en Adrogué coordinando antes por mensaje."

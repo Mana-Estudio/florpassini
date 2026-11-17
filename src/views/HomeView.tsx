@@ -4,8 +4,8 @@ import { ArrowLeft, ArrowRight, Brush, MessageCircle, Truck } from 'lucide-react
 import { ARTWORKS, findArtwork } from '../data/artworks';
 import { SITE } from '../data/site';
 import { href } from '../lib/router';
-import { ArtImage, Reveal, SpinBadge } from '../components/ui';
-import { CtaBand, Marquee } from '../components/sections';
+import { ArtImage, Reveal } from '../components/ui';
+import { CtaBand } from '../components/sections';
 import { SERIES } from '../data/site';
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -23,10 +23,6 @@ export const HomeView: React.FC = () => {
     <>
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-40 top-10 h-[34rem] w-[34rem] rounded-full bg-violet-soft blur-3xl"
-        />
         <div className="container-x relative grid items-center gap-14 pb-20 pt-28 sm:pt-32 lg:grid-cols-12 lg:gap-8 lg:pb-28 lg:pt-36">
           <div className="lg:col-span-5">
             <motion.p
@@ -35,7 +31,7 @@ export const HomeView: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease }}
             >
-              {SITE.role} · {SITE.location}
+              {SITE.role} en {SITE.location}
             </motion.p>
             <motion.h1
               className="mt-5 text-[3.6rem] leading-[0.95] tracking-tight sm:text-8xl lg:text-[6.5rem]"
@@ -74,6 +70,7 @@ export const HomeView: React.FC = () => {
           <div className="relative lg:col-span-7">
             <motion.a
               href={href(`obras/${hero.slug}`)}
+              data-cursor="Ver obra"
               className="group relative ml-auto block w-[86%] sm:w-[78%]"
               initial={{ opacity: 0, y: 30, rotate: 1.5 }}
               animate={{ opacity: 1, y: 0, rotate: 1.5 }}
@@ -83,11 +80,12 @@ export const HomeView: React.FC = () => {
                 <ArtImage art={hero} eager sizes="(min-width: 1024px) 45vw, 85vw" className="group-hover:scale-[1.03]" />
               </div>
               <span className="mt-3 hidden text-right text-sm text-ink-soft sm:block">
-                <em className="font-display text-base text-ink">{hero.title}</em> · {hero.technique}
+                <span className="font-display text-base text-ink">{hero.title}</span> · {hero.technique}
               </span>
             </motion.a>
             <motion.a
               href={href(`obras/${heroSmall.slug}`)}
+              data-cursor="Ver obra"
               className="group absolute -bottom-6 left-0 block w-[38%] bg-white p-2.5 shadow-[0_30px_60px_-30px_rgba(31,26,23,0.55)] sm:-bottom-4 sm:w-[32%] sm:p-3"
               initial={{ opacity: 0, y: 40, rotate: -4 }}
               animate={{ opacity: 1, y: 0, rotate: -4 }}
@@ -96,22 +94,15 @@ export const HomeView: React.FC = () => {
             >
               <ArtImage art={heroSmall} eager sizes="(min-width: 1024px) 25vw, 50vw" />
             </motion.a>
-            <SpinBadge
-              text="obra original · hecha a mano · "
-              className="absolute -top-10 left-[4%] hidden h-28 w-28 sm:left-[14%] rounded-full bg-coral text-paper shadow-lg sm:grid"
-            />
           </div>
         </div>
       </section>
-
-      <Marquee />
 
       {/* ── Obras destacadas (tira horizontal) ───────────── */}
       <section className="py-24 sm:py-32">
         <div className="container-x flex flex-wrap items-end justify-between gap-6">
           <Reveal>
-            <p className="eyebrow">Obras</p>
-            <h2 className="mt-3 text-4xl leading-tight sm:text-6xl">
+            <h2 className="text-4xl leading-tight sm:text-6xl">
               Un poco de <em className="text-violet">lo último</em>
             </h2>
           </Reveal>
@@ -142,7 +133,7 @@ export const HomeView: React.FC = () => {
         >
           {featured.map((art, i) => (
             <Reveal key={art.slug} delay={i * 0.06} className="shrink-0 snap-start">
-              <a href={href(`obras/${art.slug}`)} className="group block">
+              <a href={href(`obras/${art.slug}`)} data-cursor="Ver obra" className="group block">
                 <div
                   className="h-[300px] overflow-hidden bg-paper-2 shadow-[0_18px_40px_-24px_rgba(31,26,23,0.45)] sm:h-[420px]"
                   style={{ aspectRatio: `${art.w} / ${art.h}` }}
@@ -174,13 +165,12 @@ export const HomeView: React.FC = () => {
                   className="aspect-[4/5] w-full object-cover object-top"
                 />
               </div>
-              <span className="absolute -bottom-5 -right-3 rotate-[-6deg] rounded-full bg-leaf px-5 py-2.5 font-display text-lg italic text-white shadow-lg sm:-right-6">
+              <span className="absolute -bottom-5 -right-3 rotate-[-6deg] rounded-full bg-leaf px-5 py-2.5 font-display text-lg text-white shadow-lg sm:-right-6">
                 ¡Hola, soy Flor!
               </span>
             </div>
           </Reveal>
           <Reveal className="lg:col-span-7" delay={0.1}>
-            <p className="eyebrow">Sobre mí</p>
             <blockquote className="mt-4 font-display text-3xl leading-snug sm:text-5xl sm:leading-[1.1]">
               “{SITE.statement}”
             </blockquote>
@@ -196,8 +186,7 @@ export const HomeView: React.FC = () => {
       <section className="py-24 sm:py-32">
         <div className="container-x">
           <Reveal className="max-w-3xl">
-            <p className="eyebrow">Encargos</p>
-            <h2 className="mt-3 text-4xl leading-tight sm:text-6xl">
+            <h2 className="text-4xl leading-tight sm:text-6xl">
               Una obra pensada <em className="text-violet">para tu espacio</em>
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-ink-soft">

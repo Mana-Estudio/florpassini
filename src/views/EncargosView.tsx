@@ -5,6 +5,7 @@ import { findArtwork } from '../data/artworks';
 import { SITE, whatsappLink } from '../data/site';
 import { ArtImage, Reveal, WhatsAppIcon } from '../components/ui';
 import { CtaBand, PageIntro } from '../components/sections';
+import { PaletteBuilder } from '../components/PaletteBuilder';
 
 const PASOS = [
   {
@@ -35,7 +36,6 @@ export const EncargosView: React.FC = () => {
   return (
     <>
       <PageIntro
-        eyebrow="Encargos"
         title={
           <>
             Una obra que <em className="text-violet">sólo existe para vos</em>
@@ -50,7 +50,7 @@ export const EncargosView: React.FC = () => {
         <ol className="space-y-10 lg:col-span-7">
           {PASOS.map((p, i) => (
             <Reveal as="li" key={p.t} delay={i * 0.06} className="flex gap-6">
-              <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-violet font-display text-2xl italic text-paper">
+              <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-violet font-display text-2xl text-paper">
                 {i + 1}
               </span>
               <div className="pt-1.5">
@@ -83,12 +83,24 @@ export const EncargosView: React.FC = () => {
         </Reveal>
       </section>
 
+      {/* Armá tu paleta */}
+      <section className="container-x py-20 sm:py-28">
+        <Reveal className="mb-10 max-w-2xl">
+          <h2 className="text-4xl leading-tight sm:text-6xl">
+            Armá <em>tu paleta</em>
+          </h2>
+          <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+            ¿No sabés por dónde empezar? Jugá con los colores de mis cuadros: te muestro obras parecidas y me mandás la idea en un toque.
+          </p>
+        </Reveal>
+        <PaletteBuilder />
+      </section>
+
       {/* Qué necesito saber */}
       <section className="bg-paper-2 py-20 sm:py-24">
         <div className="container-x grid gap-10 lg:grid-cols-12">
           <Reveal className="lg:col-span-4">
-            <p className="eyebrow">Para arrancar</p>
-            <h2 className="mt-3 text-4xl leading-tight">Lo que me ayuda saber</h2>
+            <h2 className="text-4xl leading-tight">Lo que me ayuda saber</h2>
             <p className="mt-4 text-ink-soft">No hace falta tenerlo todo claro: lo vamos definiendo juntos.</p>
           </Reveal>
           <ul className="flex flex-wrap content-start gap-3 lg:col-span-8">
@@ -105,8 +117,7 @@ export const EncargosView: React.FC = () => {
       <section className="container-x py-24 sm:py-32">
         <div className="grid gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-4">
-            <p className="eyebrow">Preguntas frecuentes</p>
-            <h2 className="mt-3 text-4xl leading-tight sm:text-5xl">
+            <h2 className="text-4xl leading-tight sm:text-5xl">
               Lo que <em className="text-violet">más me preguntan</em>
             </h2>
             <p className="mt-4 text-ink-soft">
@@ -152,7 +163,7 @@ export const EncargosView: React.FC = () => {
       <CtaBand
         title={
           <>
-            Imaginala. <em className="text-coral">Yo la pinto.</em>
+            Imaginala. <em className="text-paper">Yo la pinto.</em>
           </>
         }
         text="Escribime con tu idea, por más vaga que sea. Te respondo con una propuesta y un presupuesto sin compromiso."

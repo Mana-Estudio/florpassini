@@ -12,6 +12,8 @@ import { ObrasView } from './views/ObrasView';
 import { SobreMiView } from './views/SobreMiView';
 import { EncargosView } from './views/EncargosView';
 import { ContactoView } from './views/ContactoView';
+import { NotFoundView } from './views/NotFoundView';
+import { CursorLabel } from './components/CursorLabel';
 
 const TITLES: Record<Page, string> = {
   inicio: 'Florencia Passini · Pintora',
@@ -19,6 +21,7 @@ const TITLES: Record<Page, string> = {
   'sobre-mi': 'Sobre mí · Florencia Passini',
   encargos: 'Encargos · Florencia Passini',
   contacto: 'Contacto · Florencia Passini',
+  'no-encontrada': 'Página no encontrada · Florencia Passini',
 };
 
 export default function App() {
@@ -43,7 +46,8 @@ export default function App() {
   let view: React.ReactNode;
   switch (route.page) {
     case 'obras':
-      view = <ObrasView />;
+      // Una obra que no existe (link viejo o mal escrito) muestra la 404
+      view = route.slug && !openArt ? <NotFoundView /> : <ObrasView />;
       break;
     case 'sobre-mi':
       view = <SobreMiView />;
@@ -53,6 +57,9 @@ export default function App() {
       break;
     case 'contacto':
       view = <ContactoView slug={route.slug} />;
+      break;
+    case 'no-encontrada':
+      view = <NotFoundView />;
       break;
     default:
       view = <HomeView />;
@@ -89,6 +96,8 @@ export default function App() {
       <Footer />
 
       <AnimatePresence>{openArt && <ArtworkModal key="modal" art={openArt} />}</AnimatePresence>
+
+      <CursorLabel />
 
       <WhatsAppFloat hidden={!!openArt || route.page === 'contacto'} />
     </MotionConfig>

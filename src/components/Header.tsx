@@ -39,7 +39,7 @@ export const Header: React.FC<{ page: Page }> = ({ page }) => {
       <div className="container-x flex h-18 items-center justify-between">
         <a href={href()} className="group flex items-baseline gap-1.5" aria-label="Inicio">
           <span className="font-display text-2xl tracking-tight text-ink">Florencia</span>
-          <span className="font-display text-2xl italic tracking-tight text-violet">Passini</span>
+          <span className="font-display text-2xl tracking-tight text-violet">Passini</span>
         </a>
 
         <nav aria-label="Principal" className="hidden items-center gap-1 md:flex">
@@ -104,7 +104,7 @@ export const Header: React.FC<{ page: Page }> = ({ page }) => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.04 * i }}
                   className={`border-b border-line py-4 font-display text-4xl ${
-                    page === item.page ? 'italic text-violet' : 'text-ink'
+                    page === item.page ? 'text-violet' : 'text-ink'
                   }`}
                 >
                   {item.label}

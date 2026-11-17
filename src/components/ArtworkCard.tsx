@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Artwork } from '../types';
-import { SERIES } from '../data/site';
 import { href } from '../lib/router';
 import { ArtImage, StatusTag } from './ui';
 
@@ -10,7 +9,7 @@ export const ArtworkCard: React.FC<{ art: Artwork; sizes?: string; className?: s
   sizes,
   className = '',
 }) => (
-  <a href={href(`obras/${art.slug}`)} className={`group block ${className}`}>
+  <a href={href(`obras/${art.slug}`)} data-cursor="Ver obra" className={`group block ${className}`}>
     {/* layoutId: la imagen "vuela" desde la tarjeta hasta la ficha de la obra */}
     <motion.div
       layoutId={`art-${art.slug}`}
@@ -29,14 +28,17 @@ export const ArtworkCard: React.FC<{ art: Artwork; sizes?: string; className?: s
         </span>
       )}
     </motion.div>
-    <div className="mt-4 flex items-start justify-between gap-4">
-      <div>
-        <h3 className="text-xl leading-tight text-ink transition-colors group-hover:text-violet">{art.title}</h3>
-        <p className="mt-1 text-sm text-ink-soft">
-          {SERIES[art.serie]} · {art.size}
-        </p>
-      </div>
-      {art.status === 'disponible' && <StatusTag status={art.status} className="mt-1 shrink-0" />}
+    <div className="mt-4">
+      <h3 className="text-xl leading-tight text-ink transition-colors group-hover:text-violet">{art.title}</h3>
+      <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-soft">
+        <span>{art.size}</span>
+        {art.status === 'disponible' && (
+          <>
+            <span aria-hidden="true">·</span>
+            <StatusTag status={art.status} className="!font-medium" />
+          </>
+        )}
+      </p>
     </div>
   </a>
 );

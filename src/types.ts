@@ -1,4 +1,4 @@
-export type Page = 'inicio' | 'obras' | 'sobre-mi' | 'encargos' | 'contacto';
+export type Page = 'inicio' | 'obras' | 'sobre-mi' | 'encargos' | 'contacto' | 'no-encontrada';
 
 export interface Route {
   page: Page;
@@ -29,5 +29,7 @@ export interface Artwork {
   h: number;
   /** color promedio de la obra: se muestra mientras carga la imagen */
   color: string;
+  /** 5 colores principales de la obra (se usan para teñir su ficha y en "Armá tu paleta") */
+  palette: { name: string; hex: string }[];
   featured?: boolean;
 }

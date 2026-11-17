@@ -15,7 +15,7 @@ export function parsePath(pathname: string): Route {
   if (!clean) return { page: 'inicio' };
   const [page, slug] = clean.split('/');
   if ((PAGES as string[]).includes(page)) return { page: page as Page, slug: slug || undefined };
-  return { page: 'inicio' };
+  return { page: 'no-encontrada' };
 }
 
 const subscribe = (cb: () => void) => {

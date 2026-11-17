@@ -7,6 +7,7 @@ import { SERIES, SITE, whatsappLink } from '../data/site';
 import { navigate } from '../lib/router';
 import { StatusTag, WhatsAppIcon, useImageLoaded } from './ui';
 import { WallPreview } from './WallPreview';
+import { artTheme } from '../lib/color';
 
 interface Props {
   art: Artwork;
@@ -21,6 +22,7 @@ export const ArtworkModal: React.FC<Props> = ({ art }) => {
   const [view, setView] = useState<'obra' | 'pared'>('obra');
   const [openedWith] = useState(art.slug);
   const full = useImageLoaded(art.slug);
+  const theme = artTheme(art);
   const [origin, setOrigin] = useState('50% 50%');
   const [copied, setCopied] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -79,7 +81,16 @@ export const ArtworkModal: React.FC<Props> = ({ art }) => {
       role="dialog"
       aria-modal="true"
       aria-label={art.title}
-      className="fixed inset-0 z-50 overflow-y-auto bg-paper"
+      className="fixed inset-0 z-50 overflow-y-auto bg-paper transition-[background-color] duration-700"
+      // Cada obra tiñe su ficha: se sobrescriben los colores del tema sólo dentro del diálogo
+      style={
+        {
+          '--color-paper': theme.tint,
+          '--color-paper-2': theme.soft,
+          '--color-violet': theme.accent,
+          '--color-violet-deep': theme.accent,
+        } as React.CSSProperties
+      }
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -221,6 +232,29 @@ export const ArtworkModal: React.FC<Props> = ({ art }) => {
           </dl>
 
           <p className="mt-5 leading-relaxed text-ink-soft">{art.description}</p>
+
+          {/* Paleta de la obra, como una carta de colores */}
+          <div className="mt-7">
+            <p className="text-sm font-semibold">La paleta de esta obra</p>
+            <ul className="mt-3 flex gap-2">
+              {art.palette.map((c, i) => (
+                <motion.li
+                  key={`${art.slug}-${c.hex}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 + i * 0.05 }}
+                  className="min-w-0 flex-1"
+                  title={c.name}
+                >
+                  <span
+                    className="block h-12 rounded-md shadow-[inset_0_0_0_1px_rgba(31,26,23,0.08)]"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                  <span className="mt-1.5 block text-[11px] leading-tight text-ink-soft">{c.name}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
 
           <div className="mt-8 flex flex-col gap-3">
             <a
