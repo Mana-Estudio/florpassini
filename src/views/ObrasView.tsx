@@ -6,7 +6,6 @@ import { Serie } from '../types';
 import { href } from '../lib/router';
 import { ArtworkCard } from '../components/ArtworkCard';
 import { PageIntro } from '../components/sections';
-import { parseSize } from '../components/WallPreview';
 
 type Filter = 'todas' | Serie;
 
@@ -33,17 +32,17 @@ export const ObrasView: React.FC = () => {
       <PageIntro
         title={
           <>
-            Todo lo que <em className="text-violet">pinté</em> últimamente
+            Obras
           </>
         }
       >
-        Obras originales al óleo y técnica mixta. Tocá cualquiera para verla en grande, con medidas y disponibilidad.
+        Originales al óleo y técnica mixta. Tocá cualquiera para verla en detalle.
       </PageIntro>
 
       {/* Filtros */}
-      <div className="sticky top-18 z-30 border-y border-line bg-paper/90 backdrop-blur-md">
+      <div className="sticky top-18 z-30 border-b border-line bg-paper/92 backdrop-blur-md">
         <div className="container-x flex flex-wrap items-center justify-between gap-3 py-3">
-          <div role="tablist" aria-label="Filtrar por serie" className="no-scrollbar flex gap-2 overflow-x-auto">
+          <div role="tablist" aria-label="Filtrar por serie" className="no-scrollbar -ml-3 flex gap-2 overflow-x-auto">
             {FILTERS.map((f) => {
               const active = filter === f.id;
               return (
@@ -52,27 +51,23 @@ export const ObrasView: React.FC = () => {
                   role="tab"
                   aria-selected={active}
                   onClick={() => setFilter(f.id)}
-                  className={`relative shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition-colors cursor-pointer ${
-                    active ? 'text-paper' : 'text-ink-soft hover:text-ink'
+                  className={`relative shrink-0 px-3 py-2 text-[15px] tracking-wide transition-colors cursor-pointer ${
+                    active ? 'text-ink' : 'text-ink-soft hover:text-ink'
                   }`}
                 >
+                  {f.label} <sup className="text-[10px] text-ink-soft">{count(f.id)}</sup>
                   {active && (
-                    <motion.span layoutId="filter-pill" className="absolute inset-0 rounded-full bg-ink" transition={{ type: 'spring', duration: 0.4 }} />
+                    <motion.span layoutId="filter-line" className="absolute inset-x-3 bottom-0.5 h-px bg-ink" transition={{ type: 'spring', duration: 0.4 }} />
                   )}
-                  <span className="relative">
-                    {f.label} <span className={active ? 'text-paper/60' : 'text-ink-soft/60'}>{count(f.id)}</span>
-                  </span>
                 </button>
               );
             })}
           </div>
-          <label className="flex cursor-pointer items-center gap-2.5 text-sm font-medium text-ink-soft select-none">
+          <label className="flex cursor-pointer items-center gap-2.5 text-[15px] tracking-wide text-ink-soft select-none hover:text-ink">
             <span
-              className={`relative h-6 w-11 rounded-full transition-colors ${onlyAvailable ? 'bg-leaf' : 'bg-line'}`}
+              className={`grid h-4 w-4 place-items-center rounded-full border transition-colors ${onlyAvailable ? 'border-ink bg-ink' : 'border-ink/40'}`}
             >
-              <span
-                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${onlyAvailable ? 'left-[22px]' : 'left-0.5'}`}
-              />
+              {onlyAvailable && <span className="h-1.5 w-1.5 rounded-full bg-paper" />}
             </span>
             <input
               type="checkbox"
@@ -85,56 +80,40 @@ export const ObrasView: React.FC = () => {
         </div>
       </div>
 
-      {/* Muro de obras: columnas tipo masonry que respetan la proporción de cada obra */}
       <section className="container-x py-14 sm:py-20">
         {list.length === 0 ? (
           <p className="py-20 text-center text-lg text-ink-soft">No hay obras con ese filtro por ahora.</p>
         ) : (
-          <>
-            {/* Pared de salón: cada obra con un ancho proporcional a sus medidas reales, alineadas sobre una línea de centro */}
-            <motion.div
-              layout
-              className="flex flex-wrap items-center justify-center gap-x-[clamp(2rem,4vw,4.5rem)] gap-y-14 [--cm:1.7px] lg:gap-y-20 lg:[--cm:2.3px] xl:[--cm:2.6px]"
-            >
-              <AnimatePresence mode="popLayout">
-                {list.map((art, i) => (
-                  <motion.div
-                    key={art.slug}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.96 }}
-                    transition={{ duration: 0.45, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
-                    className="w-full sm:w-[calc(var(--w)*var(--cm))]"
-                    style={{ '--w': parseSize(art.size)?.w ?? 90 } as React.CSSProperties}
-                  >
-                    <ArtworkCard art={art} sizes="(min-width: 1280px) 320px, (min-width: 640px) 30vw, 100vw" />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-            <p className="mt-16 hidden text-center text-sm text-ink-soft sm:block">
-              Las obras se muestran en proporción a su tamaño real, como si estuvieran colgadas en la misma pared.
-            </p>
-          </>
+          // Obras en grande: dos columnas en escritorio, respetando la proporción de cada una
+          <motion.div layout className="columns-1 gap-12 md:columns-2 lg:gap-20">
+            <AnimatePresence mode="popLayout">
+              {list.map((art, i) => (
+                <motion.div
+                  key={art.slug}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.97 }}
+                  transition={{ duration: 0.5, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                  className="mb-16 break-inside-avoid lg:mb-24"
+                >
+                  <ArtworkCard art={art} sizes="(min-width: 768px) 45vw, 100vw" />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
       </section>
 
       {/* Llamado a encargos */}
-      <section className="container-x pb-24">
-        <div className="flex flex-col items-start justify-between gap-6 rounded-3xl bg-violet-soft p-8 sm:flex-row sm:items-center sm:p-12">
-          <div>
-            <h2 className="text-3xl sm:text-4xl">
-              ¿No encontrás <em className="text-violet">la tuya?</em>
-            </h2>
-            <p className="mt-2 max-w-lg text-ink-soft">
-              Pinto por encargo: el tamaño, los colores y la temática que imagines para tu espacio.
-            </p>
-          </div>
-          <a href={href('encargos')} className="btn-primary shrink-0">
-            Pedir un encargo <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
+      <section className="container-x border-t border-line py-24 text-center">
+        <h2 className="text-4xl sm:text-5xl">
+          ¿No encontrás <em>la tuya?</em>
+        </h2>
+        <p className="mx-auto mt-4 max-w-lg text-lg text-ink-soft">Pinto por encargo, con el tamaño y los colores que imagines.</p>
+        <a href={href('encargos')} className="link-arrow mt-8">
+          Pedir un encargo <ArrowRight className="h-4 w-4" />
+        </a>
       </section>
     </>
   );

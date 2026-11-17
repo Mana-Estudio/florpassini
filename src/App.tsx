@@ -99,7 +99,7 @@ export default function App() {
 
       <CursorLabel />
 
-      <WhatsAppFloat hidden={!!openArt || route.page === 'contacto'} />
+      <WhatsAppFloat hidden={!!openArt || route.page === 'contacto'} waitForScroll={route.page === 'inicio'} />
     </MotionConfig>
   );
 }

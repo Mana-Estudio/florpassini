@@ -212,7 +212,7 @@ export const ArtworkModal: React.FC<Props> = ({ art }) => {
             {SERIES[art.serie]}
             {art.year ? ` · ${art.year}` : ''}
           </p>
-          <h2 className="mt-3 text-4xl leading-[1.05] sm:text-5xl">{art.title}</h2>
+          <h2 className="mt-3 text-5xl leading-[1.02] sm:text-6xl">{art.title}</h2>
 
           <dl className="mt-6 grid grid-cols-2 gap-y-3 border-y border-line py-5 text-sm">
             <dt className="text-ink-soft">Técnica</dt>
@@ -235,7 +235,7 @@ export const ArtworkModal: React.FC<Props> = ({ art }) => {
 
           {/* Paleta de la obra, como una carta de colores */}
           <div className="mt-7">
-            <p className="text-sm font-semibold">La paleta de esta obra</p>
+            <p className="text-sm tracking-wide text-ink-soft">Paleta de la obra</p>
             <ul className="mt-3 flex gap-2">
               {art.palette.map((c, i) => (
                 <motion.li
@@ -247,7 +247,7 @@ export const ArtworkModal: React.FC<Props> = ({ art }) => {
                   title={c.name}
                 >
                   <span
-                    className="block h-12 rounded-md shadow-[inset_0_0_0_1px_rgba(31,26,23,0.08)]"
+                    className="block h-8 rounded-full shadow-[inset_0_0_0_1px_rgba(31,26,23,0.08)]"
                     style={{ backgroundColor: c.hex }}
                   />
                   <span className="mt-1.5 block text-[11px] leading-tight text-ink-soft">{c.name}</span>

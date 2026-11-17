@@ -14,8 +14,8 @@
   --color-leaf: #7aa33a;
   --color-sea: #2a9da8;
 
-  --font-display: "Young Serif", Georgia, serif;
-  --font-sans: "Manrope", system-ui, -apple-system, sans-serif;
+  --font-display: "Cormorant Garamond", "Cormorant", Georgia, serif;
+  --font-sans: "Jost", system-ui, -apple-system, sans-serif;
 
 }
 
@@ -25,23 +25,25 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-paper text-ink font-sans antialiased;
-    font-feature-settings: "ss01";
+    @apply bg-paper text-ink font-sans font-light antialiased;
   }
   ::selection {
     @apply bg-violet text-paper;
   }
   h1, h2, h3 {
     @apply font-display;
-    font-weight: 400;
+    font-weight: 300;
+    letter-spacing: -0.01em;
     text-wrap: balance;
   }
-  /* Palabras destacadas: sin cursiva, con un trazo de pincel coral debajo */
-  :where(h1, h2, blockquote) em {
-    font-style: normal;
-    padding: 0 0.04em 0.04em;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 11.5C38 6.5 88 4.8 139 6.6c22 .8 42 1.6 58-.4l-1 6.3c-21 2.6-56 3.4-94 3.1C64 15.3 30 16.8 4 16.4L1.5 14z' fill='%23e2603f' fill-opacity='.55'/%3E%3C/svg%3E")
-      no-repeat left 92% / 100% 0.3em;
+  h3 {
+    font-weight: 400;
+  }
+  :where(h1, h2, h3, blockquote) em {
+    font-style: italic;
+  }
+  b, strong {
+    font-weight: 500;
   }
   p {
     text-wrap: pretty;
@@ -55,19 +57,19 @@
   @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
 }
 @utility eyebrow {
-  @apply text-sm font-medium text-ink-soft;
+  @apply text-sm font-normal tracking-wide text-ink-soft;
 }
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-300 cursor-pointer;
+  @apply inline-flex items-center justify-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-normal tracking-wide transition-all duration-300 cursor-pointer;
 }
 @utility btn-primary {
-  @apply btn bg-violet text-paper hover:bg-violet-deep hover:-translate-y-0.5 shadow-[0_10px_30px_-12px_rgba(74,44,122,0.6)];
+  @apply btn bg-ink text-paper hover:bg-violet;
 }
 @utility btn-ghost {
-  @apply btn border border-ink/15 text-ink hover:border-ink hover:bg-ink hover:text-paper;
+  @apply btn border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-paper;
 }
 @utility link-arrow {
-  @apply inline-flex items-center gap-1.5 text-sm font-semibold text-violet underline-offset-4 hover:underline;
+  @apply inline-flex items-center gap-2 text-sm font-normal tracking-wide text-ink underline decoration-ink/30 underline-offset-[6px] transition-colors hover:text-violet hover:decoration-violet;
 }
 @utility field {
   @apply w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-ink placeholder:text-ink-soft/60 transition-colors focus:border-violet focus:outline-none;

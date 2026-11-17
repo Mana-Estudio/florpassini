@@ -38,7 +38,7 @@ export const SobreMiView: React.FC = () => (
     <section className="container-x grid items-center gap-14 pb-24 pt-32 sm:pt-40 lg:grid-cols-12 lg:gap-20">
       <Reveal className="lg:col-span-5">
         <div className="relative mx-auto max-w-md">
-          <div className="overflow-hidden rounded-t-full shadow-[0_30px_60px_-30px_rgba(31,26,23,0.5)]">
+          <div className="overflow-hidden">
             <img
               src="/images/flor/flor-passini.jpg"
               width={874}
@@ -47,13 +47,11 @@ export const SobreMiView: React.FC = () => (
               className="aspect-[4/5] w-full object-cover object-top"
             />
           </div>
-          <div aria-hidden="true" className="absolute -bottom-6 -left-6 -z-10 h-40 w-40 rounded-full bg-coral/80" />
-          <div aria-hidden="true" className="absolute -right-4 top-10 -z-10 h-24 w-24 rounded-full bg-leaf/80" />
         </div>
       </Reveal>
       <Reveal className="lg:col-span-7" delay={0.1}>
         <h1 className="text-6xl leading-[0.95] tracking-tight sm:text-8xl">
-          Hola, <em className="text-violet">soy Flor.</em>
+          Hola, <em>soy Flor.</em>
         </h1>
         <div className="mt-8 space-y-5 text-lg leading-relaxed text-ink-soft">
           {SITE.bio.map((p) => (
@@ -85,7 +83,7 @@ export const SobreMiView: React.FC = () => (
     <section className="container-x py-24 sm:py-32">
       <Reveal className="max-w-2xl">
         <h2 className="text-4xl leading-tight sm:text-6xl">
-          Acercate, <em className="text-violet">mirá la pincelada</em>
+          Acercate, <em>mirá la pincelada</em>
         </h2>
       </Reveal>
       <div className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">

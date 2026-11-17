@@ -57,8 +57,8 @@ export function artTheme(art: Artwork) {
 
   return {
     accent: rgbToHex(accent),
-    tint: rgbToHex(mix(PAPER, vivid, 0.09)),
-    soft: rgbToHex(mix(PAPER, vivid, 0.28)),
+    tint: rgbToHex(mix(PAPER, vivid, 0.05)),
+    soft: rgbToHex(mix(PAPER, vivid, 0.16)),
   };
 }
 

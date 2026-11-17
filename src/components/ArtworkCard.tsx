@@ -14,7 +14,7 @@ export const ArtworkCard: React.FC<{ art: Artwork; sizes?: string; className?: s
     <motion.div
       layoutId={`art-${art.slug}`}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="relative overflow-hidden bg-paper-2 shadow-[0_18px_40px_-24px_rgba(31,26,23,0.45)] transition-shadow duration-500 group-hover:shadow-[0_28px_60px_-24px_rgba(74,44,122,0.45)]">
+      className="relative overflow-hidden bg-paper-2">
       <ArtImage
         art={art}
         sizes={sizes}
@@ -28,8 +28,8 @@ export const ArtworkCard: React.FC<{ art: Artwork; sizes?: string; className?: s
         </span>
       )}
     </motion.div>
-    <div className="mt-4">
-      <h3 className="text-xl leading-tight text-ink transition-colors group-hover:text-violet">{art.title}</h3>
+    <div className="mt-5">
+      <h3 className="text-3xl leading-tight text-ink transition-colors group-hover:text-violet">{art.title}</h3>
       <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-soft">
         <span>{art.size}</span>
         {art.status === 'disponible' && (

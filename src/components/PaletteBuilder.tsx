@@ -78,7 +78,7 @@ export const PaletteBuilder: React.FC = () => {
 
       {/* Resultado */}
       <div className="lg:col-span-6">
-        <div className="rounded-3xl border border-line bg-white p-6 sm:p-8">
+        <div className="bg-paper p-6 sm:p-8">
           <div className="flex items-center justify-between gap-4">
             <p className="font-display text-2xl">Tu paleta</p>
             {selected.length > 0 && (

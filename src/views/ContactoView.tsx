@@ -37,9 +37,9 @@ export const ContactoView: React.FC<{ slug?: string }> = ({ slug }) => {
   const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent(form.motivo)}&body=${encodeURIComponent(buildMessage())}`;
 
   const channels = [
-    { href: whatsappLink('¡Hola Flor!'), icon: <WhatsAppIcon className="h-6 w-6" />, label: 'WhatsApp', value: SITE.whatsappDisplay, color: 'bg-[#25D366] text-white', external: true },
-    { href: instagramLink, icon: <Instagram className="h-6 w-6" />, label: 'Instagram', value: `@${SITE.instagram}`, color: 'bg-gradient-to-br from-[#f58529] via-[#dd2a7b] to-[#8134af] text-white', external: true },
-    { href: `mailto:${SITE.email}`, icon: <Mail className="h-6 w-6" />, label: 'Mail', value: SITE.email, color: 'bg-violet text-paper', external: false },
+    { href: whatsappLink('¡Hola Flor!'), icon: <WhatsAppIcon className="h-6 w-6" />, label: 'WhatsApp', value: SITE.whatsappDisplay, color: 'border border-ink/20 text-ink', external: true },
+    { href: instagramLink, icon: <Instagram className="h-6 w-6" />, label: 'Instagram', value: `@${SITE.instagram}`, color: 'border border-ink/20 text-ink', external: true },
+    { href: `mailto:${SITE.email}`, icon: <Mail className="h-6 w-6" />, label: 'Mail', value: SITE.email, color: 'border border-ink/20 text-ink', external: false },
   ];
 
   return (
@@ -47,7 +47,7 @@ export const ContactoView: React.FC<{ slug?: string }> = ({ slug }) => {
       <PageIntro
         title={
           <>
-            Hablemos de <em className="text-violet">arte</em>
+            Hablemos de <em>arte</em>
           </>
         }
       >
@@ -56,24 +56,24 @@ export const ContactoView: React.FC<{ slug?: string }> = ({ slug }) => {
 
       <section className="container-x grid gap-14 pb-28 lg:grid-cols-12 lg:gap-16">
         {/* Canales */}
-        <div className="space-y-4 lg:col-span-5">
+        <div className="border-t border-line lg:col-span-5">
           {channels.map((c, i) => (
             <Reveal key={c.label} delay={i * 0.06}>
               <a
                 href={c.href}
                 {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="group flex items-center gap-5 rounded-3xl border border-line bg-white/70 p-5 transition-all hover:-translate-y-0.5 hover:border-ink/20 hover:shadow-[0_20px_40px_-25px_rgba(31,26,23,0.4)]"
+                className="group flex items-center gap-5 border-b border-line py-5 transition-colors hover:border-ink/40"
               >
-                <span className={`grid h-14 w-14 shrink-0 place-items-center rounded-2xl ${c.color}`}>{c.icon}</span>
+                <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-full ${c.color}`}>{c.icon}</span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-sm text-ink-soft">{c.label}</span>
-                  <span className="block truncate text-lg font-semibold">{c.value}</span>
+                  <span className="block truncate text-lg">{c.value}</span>
                 </span>
                 <ArrowUpRight className="h-5 w-5 shrink-0 text-ink-soft transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-violet" />
               </a>
             </Reveal>
           ))}
-          <Reveal delay={0.2} className="flex items-start gap-4 rounded-3xl bg-paper-2 p-6">
+          <Reveal delay={0.2} className="flex items-start gap-4 pt-6">
             <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-coral-deep" />
             <p className="leading-relaxed text-ink-soft">
               <span className="font-semibold text-ink">Taller en {SITE.location}.</span> Se puede visitar con cita previa: escribime y coordinamos día y horario.
@@ -83,7 +83,7 @@ export const ContactoView: React.FC<{ slug?: string }> = ({ slug }) => {
 
         {/* Formulario → WhatsApp / mail */}
         <Reveal className="lg:col-span-7" delay={0.1}>
-          <form onSubmit={onSubmit} className="rounded-[2rem] border border-line bg-white p-6 shadow-[0_30px_60px_-40px_rgba(31,26,23,0.35)] sm:p-10">
+          <form onSubmit={onSubmit} className="bg-paper-2 p-6 sm:p-10">
             <h2 className="text-3xl">Dejame tu mensaje</h2>
             <p className="mt-2 text-ink-soft">Completá lo que quieras y se arma el mensaje solo.</p>
 

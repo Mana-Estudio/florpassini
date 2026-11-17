@@ -26,91 +26,55 @@ const PASOS = [
   },
 ];
 
-const IDEAS = ['Medidas aproximadas', 'Fotos del espacio', 'Colores que te gustan (y los que no)', 'Abstracto o figurativo', 'Una obra mía que te inspire', 'Para cuándo la necesitás'];
-
 export const EncargosView: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const a = findArtwork('resonancia-coral')!;
-  const b = findArtwork('geometria-botanica')!;
 
   return (
     <>
       <PageIntro
         title={
           <>
-            Una obra que <em className="text-violet">sólo existe para vos</em>
+            Una obra que <em>sólo existe para vos</em>
           </>
         }
       >
-        Pinto obras por encargo para casas, oficinas, consultorios y regalos especiales. Vos me contás la idea; yo la convierto en una pintura original, única e irrepetible.
+        Pinto por encargo para casas, oficinas y regalos especiales. Vos me contás la idea; yo la convierto en una obra original.
       </PageIntro>
 
-      {/* Pasos + imágenes */}
-      <section className="container-x grid gap-16 pb-24 pt-6 lg:grid-cols-12 lg:gap-20">
-        <ol className="space-y-10 lg:col-span-7">
+      {/* Imagen protagonista */}
+      <Reveal className="mx-auto max-w-7xl sm:px-8 lg:px-12">
+        <div className="h-[55vh] min-h-[320px] overflow-hidden sm:h-[70vh]">
+          <ArtImage art={a} sizes="100vw" className="!h-full object-cover" />
+        </div>
+      </Reveal>
+
+      {/* Cómo funciona */}
+      <section className="container-x py-24 sm:py-32">
+        <Reveal>
+          <h2 className="text-5xl sm:text-6xl">
+            Cómo <em>funciona</em>
+          </h2>
+        </Reveal>
+        <ol className="mt-14 grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           {PASOS.map((p, i) => (
-            <Reveal as="li" key={p.t} delay={i * 0.06} className="flex gap-6">
-              <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-violet font-display text-2xl text-paper">
-                {i + 1}
-              </span>
-              <div className="pt-1.5">
-                <h2 className="text-2xl sm:text-3xl">{p.t}</h2>
-                <p className="mt-2 max-w-lg text-lg leading-relaxed text-ink-soft">{p.d}</p>
-              </div>
+            <Reveal as="li" key={p.t} delay={i * 0.06} className="border-t border-ink/15 pt-6">
+              <span className="font-display text-5xl font-light text-ink/35">{String(i + 1).padStart(2, '0')}</span>
+              <h3 className="mt-4 text-3xl">{p.t}</h3>
+              <p className="mt-3 leading-relaxed text-ink-soft">{p.d}</p>
             </Reveal>
           ))}
-          <Reveal>
-            <a
-              href={whatsappLink('¡Hola Flor! Me gustaría encargarte una obra. Te cuento la idea:')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary mt-4"
-            >
-              <WhatsAppIcon /> Contame tu idea
-            </a>
-          </Reveal>
         </ol>
-
-        <Reveal className="relative hidden lg:col-span-5 lg:block" delay={0.1}>
-          <div className="sticky top-32">
-            <div className="w-[85%] rotate-2 shadow-[0_30px_60px_-30px_rgba(31,26,23,0.55)]">
-              <ArtImage art={a} sizes="35vw" />
-            </div>
-            <div className="-mt-16 ml-auto w-[60%] -rotate-3 bg-white p-3 shadow-[0_30px_60px_-30px_rgba(31,26,23,0.55)]">
-              <ArtImage art={b} sizes="25vw" />
-            </div>
-          </div>
+        <Reveal className="mt-14">
+          <a
+            href={whatsappLink('¡Hola Flor! Me gustaría encargarte una obra. Te cuento la idea:')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
+            <WhatsAppIcon /> Contame tu idea
+          </a>
         </Reveal>
-      </section>
-
-      {/* Armá tu paleta */}
-      <section className="container-x py-20 sm:py-28">
-        <Reveal className="mb-10 max-w-2xl">
-          <h2 className="text-4xl leading-tight sm:text-6xl">
-            Armá <em>tu paleta</em>
-          </h2>
-          <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-            ¿No sabés por dónde empezar? Jugá con los colores de mis cuadros: te muestro obras parecidas y me mandás la idea en un toque.
-          </p>
-        </Reveal>
-        <PaletteBuilder />
-      </section>
-
-      {/* Qué necesito saber */}
-      <section className="bg-paper-2 py-20 sm:py-24">
-        <div className="container-x grid gap-10 lg:grid-cols-12">
-          <Reveal className="lg:col-span-4">
-            <h2 className="text-4xl leading-tight">Lo que me ayuda saber</h2>
-            <p className="mt-4 text-ink-soft">No hace falta tenerlo todo claro: lo vamos definiendo juntos.</p>
-          </Reveal>
-          <ul className="flex flex-wrap content-start gap-3 lg:col-span-8">
-            {IDEAS.map((t, i) => (
-              <Reveal as="li" key={t} delay={i * 0.04}>
-                <span className="inline-block rounded-full border border-ink/10 bg-paper px-5 py-3 text-[15px] font-medium">{t}</span>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
       </section>
 
       {/* Preguntas frecuentes */}
@@ -118,7 +82,7 @@ export const EncargosView: React.FC = () => {
         <div className="grid gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-4">
             <h2 className="text-4xl leading-tight sm:text-5xl">
-              Lo que <em className="text-violet">más me preguntan</em>
+              Lo que <em>más me preguntan</em>
             </h2>
             <p className="mt-4 text-ink-soft">
               ¿Otra duda? Escribime a{' '}
@@ -157,6 +121,21 @@ export const EncargosView: React.FC = () => {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* Inspiración: armá tu paleta (secundario) */}
+      <section className="bg-paper-2 py-24 sm:py-32">
+        <div className="container-x">
+          <Reveal className="mb-12 max-w-2xl">
+            <h2 className="text-4xl leading-tight sm:text-5xl">
+              ¿Necesitás <em>inspiración?</em>
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+              Elegí colores de mis cuadros: te muestro obras parecidas y me mandás la idea en un toque.
+            </p>
+          </Reveal>
+          <PaletteBuilder />
         </div>
       </section>
 

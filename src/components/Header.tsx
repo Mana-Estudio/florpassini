@@ -16,9 +16,13 @@ export const NAV: { page: Page; label: string }[] = [
 export const Header: React.FC<{ page: Page }> = ({ page }) => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
+      setPastHero(window.scrollY > window.innerHeight * 0.85);
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -30,16 +34,21 @@ export const Header: React.FC<{ page: Page }> = ({ page }) => {
     document.body.style.overflow = open ? 'hidden' : '';
   }, [open]);
 
+  // En el inicio, mientras se ve la obra a pantalla completa, el header va en claro y sin fondo
+  const overlay = page === 'inicio' && !pastHero && !open;
+  const solid = !overlay && (scrolled || open);
+
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
-        scrolled || open ? 'bg-paper/90 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md' : 'bg-transparent'
+      className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
+        solid ? 'bg-paper/92 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md' : 'bg-transparent'
       }`}
     >
       <div className="container-x flex h-18 items-center justify-between">
         <a href={href()} className="group flex items-baseline gap-1.5" aria-label="Inicio">
-          <span className="font-display text-2xl tracking-tight text-ink">Florencia</span>
-          <span className="font-display text-2xl tracking-tight text-violet">Passini</span>
+          <span className={`font-display text-[1.75rem] font-normal transition-colors duration-500 ${overlay ? 'text-paper' : 'text-ink'}`}>
+            Florencia <em className={overlay ? 'text-paper' : 'text-violet'}>Passini</em>
+          </span>
         </a>
 
         <nav aria-label="Principal" className="hidden items-center gap-1 md:flex">
@@ -50,15 +59,21 @@ export const Header: React.FC<{ page: Page }> = ({ page }) => {
                 key={item.page}
                 href={href(item.page)}
                 aria-current={active ? 'page' : undefined}
-                className={`relative rounded-full px-4 py-2 text-[15px] font-medium transition-colors ${
-                  active ? 'text-violet' : 'text-ink-soft hover:text-ink'
+                className={`relative rounded-full px-4 py-2 text-[15px] font-normal tracking-wide transition-colors duration-500 ${
+                  overlay
+                    ? active
+                      ? 'text-paper'
+                      : 'text-paper/75 hover:text-paper'
+                    : active
+                      ? 'text-violet'
+                      : 'text-ink-soft hover:text-ink'
                 }`}
               >
                 {item.label}
                 {active && (
                   <motion.span
                     layoutId="nav-dot"
-                    className="absolute bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-coral"
+                    className="absolute bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-current"
                   />
                 )}
               </a>
@@ -69,7 +84,9 @@ export const Header: React.FC<{ page: Page }> = ({ page }) => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
-            className="ml-2 grid h-10 w-10 place-items-center rounded-full text-ink-soft transition-colors hover:bg-paper-2 hover:text-ink"
+            className={`ml-2 grid h-10 w-10 place-items-center rounded-full transition-colors duration-500 ${
+              overlay ? 'text-paper/80 hover:text-paper' : 'text-ink-soft hover:bg-paper-2 hover:text-ink'
+            }`}
           >
             <Instagram className="h-5 w-5" />
           </a>
@@ -77,7 +94,7 @@ export const Header: React.FC<{ page: Page }> = ({ page }) => {
 
         <button
           onClick={() => setOpen((o) => !o)}
-          className="-mr-2 grid h-11 w-11 place-items-center rounded-full text-ink md:hidden cursor-pointer"
+          className={`-mr-2 grid h-11 w-11 place-items-center rounded-full md:hidden cursor-pointer ${overlay ? 'text-paper' : 'text-ink'}`}
           aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={open}
         >
