@@ -6,3 +6,7 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Fotos originales en alta y assets de AI Studio: quedan solo en local
+originales/
+.aistudio/
