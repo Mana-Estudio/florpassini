@@ -3,6 +3,7 @@ import { Instagram, Mail } from 'lucide-react';
 import { SITE, instagramLink, whatsappLink } from '../data/site';
 import { href } from '../lib/router';
 import { NAV } from './Header';
+import { FirmaMana } from './FirmaMana';
 import { WhatsAppIcon } from './ui';
 
 export const Footer: React.FC = () => (
@@ -54,9 +55,10 @@ export const Footer: React.FC = () => (
       </div>
     </div>
     <div className="border-t border-line">
-      <div className="container-x flex flex-col gap-2 py-6 text-xs text-ink-soft sm:flex-row sm:justify-between">
+      {/* pr-*: deja libre el lugar del botón flotante de WhatsApp para que no tape la firma ni el copyright */}
+      <div className="container-x flex flex-col items-start gap-2 py-6 pr-20 text-xs text-ink-soft sm:flex-row sm:items-baseline sm:justify-between sm:pr-28 min-[1440px]:pr-12">
         <p>© {new Date().getFullYear()} Florencia Passini. Todas las obras y fotografías son de la artista.</p>
-        <p>Hecho con color en el sur de Buenos Aires.</p>
+        <FirmaMana />
       </div>
     </div>
   </footer>
